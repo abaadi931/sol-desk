@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0e1c">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>Quant Desk · Binance — Grok Bot Terminal (Paper, view only)</title>
+<style>
+:root{--bg:#080b17;--win:#0d1124;--p:#111630;--line:#242b4a;--t:#d7dcf0;--m:#7c84a6;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Tahoma,"Noto Sans Arabic","Segoe UI Arabic",sans-serif;
+--scout:#5eead4;--filter:#f472b6;--analyst:#a78bfa;--exec:#4ade80;--risk:#facc15;--log:#60a5fa;--you:#e5e7eb;--g:#4ade80;--r:#f87171}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--t);font:14px/1.45 var(--sans)}
+a{color:#8ab4ff;text-decoration:none}a:hover{color:#c4d7ff}
+.mono{font-family:var(--mono)}.mut{color:var(--m)}.ok{color:var(--g)}.bad{color:var(--r)}.ar{font-size:10px;color:var(--m)}
+.win{max-width:1180px;margin:10px auto;background:var(--win);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.chrome{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid #1a2040;font:12px var(--mono);color:var(--m)}
+.chrome i{width:10px;height:10px;border-radius:50%;display:inline-block}.chrome .ttl{flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.navx{color:#8ab4ff;border-bottom:1px dotted #8ab4ff66;margin:0 4px}
+.paperb{border:1px solid var(--risk);color:var(--risk);border-radius:6px;padding:1px 7px;font-weight:700;white-space:nowrap}
+.snapb{background:#2a2306;border-bottom:1px solid var(--risk);color:var(--risk);padding:6px 12px;font-size:12px}
+.hdr{display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:16px 16px 10px}
+.ava{width:78px;height:78px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3d1,#f5c76b 45%,#c98a1a);display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 0 30px #f5c76b55;flex:none}
+.ava b{width:9px;height:22px;background:#2a1c08;border-radius:5px;animation:blink 5s infinite}@keyframes blink{0%,95%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.ttlb{flex:1;min-width:230px}.ttlb h1{margin:0;font:600 30px var(--mono);letter-spacing:.5px}.ttlb h1 span{color:#f5c76b}
+.pill{display:inline-block;border-radius:6px;padding:2px 8px;font:12px var(--mono);vertical-align:middle}
+.desk{background:linear-gradient(90deg,#fde68a,#a5f3fc);color:#1b1640;margin-left:8px}
+.inpill{border:1px solid #facc1566;color:var(--risk);margin-left:10px}
+.warnpill{border:1px solid #fb923c;color:#fb923c;margin-left:8px;letter-spacing:1px}
+.run{font:14px var(--mono);margin:6px 0}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);margin-right:6px;animation:pl 1.5s infinite}.dot.off{background:var(--r);box-shadow:0 0 8px var(--r);animation:none}@keyframes pl{50%{opacity:.35}}
+.livetag{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--g);color:var(--g);border-radius:6px;padding:1px 7px;font:11px var(--mono);letter-spacing:1.2px;margin-left:8px;vertical-align:middle}
+.livetag i{width:7px;height:7px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);animation:pl 1.2s infinite}
+.livetag.off{border-color:var(--r);color:var(--r)}.livetag.off i{background:var(--r);box-shadow:none;animation:none}
+.tag{color:#b8bfdc;font-size:14px}
+.bal{text-align:right;margin-left:auto}.bal .big{font:700 40px var(--mono);color:#fff}.bal .sub{font:11px var(--mono);color:var(--m)}.bal .wl{font:15px var(--mono);margin-top:3px}
+.grid{display:grid;grid-template-columns:270px minmax(0,1fr);gap:12px;padding:0 14px 14px}
+.side{display:flex;flex-direction:column;gap:10px}
+.ag{background:var(--p);border:1px solid var(--line);border-radius:11px;padding:11px 12px}
+.ag.act{border-color:#f5c76b99;box-shadow:0 0 0 1px #f5c76b44}
+.agh{display:flex;align-items:flex-start;gap:9px}.ico{width:28px;height:28px;border-radius:7px;background:#1b2142;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
+.agh .nm{font:600 17px var(--mono)}.agh .rl{font-size:13px;color:#b8bfdc}.agh .bd{margin-left:auto;border:1px solid currentColor;border-radius:5px;font:10px var(--mono);padding:1px 6px;letter-spacing:1px}
+.ag .rule{font-size:13px;font-weight:600;margin:9px 0 10px}.ag .ft{font:11.5px var(--mono);color:var(--m);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.main{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-content:start}
+.pn{background:var(--p);border:1px solid var(--line);border-radius:11px;padding:12px;min-width:0}
+.pn.full{grid-column:1/-1}
+.ph{display:flex;justify-content:space-between;align-items:center;font:11.5px var(--mono);letter-spacing:2px;color:#c9cfe8;margin-bottom:10px;gap:8px;flex-wrap:wrap}.ph .r{letter-spacing:0;color:var(--m)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:4px 0 2px}
+.metric{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#0f1430}
+.metric .k{font:10px var(--mono);letter-spacing:1.2px;color:var(--m)}.metric .v{font:18px var(--mono);color:#fff;margin-top:2px}.metric .s{font:11px var(--mono);color:var(--m)}
+.split{display:grid;grid-template-columns:1.15fr .85fr;gap:12px}
+.rules{list-style:none;margin:0;padding:0}.rules li{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:13.5px;line-height:1.45}
+.rules li i{width:14px;height:14px;border-radius:50%;background:#2a3157;flex:none;display:flex;align-items:center;justify-content:center;font-size:9px;font-style:normal;margin-top:3px}
+.rules li.ok i{background:#14532d;color:var(--g)}.rules li.warn i{background:#5b3a12;color:var(--risk)}
+.failbox{border:1px solid #7c2d12;background:#1a0e0c;border-radius:8px;padding:10px 12px}
+.failbox h3{margin:0 0 8px;font:700 11px var(--mono);letter-spacing:1.4px;color:#fb923c}
+.failbox li{color:#f3d1c0;font-size:13px;margin:0 0 6px;padding-left:2px}
+.nums{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 14px;margin:8px 0}
+.nums div{display:flex;justify-content:space-between;gap:8px;font:12.5px var(--mono);border-bottom:1px solid #1d2443;padding:4px 0}.nums b{color:#fff;font-weight:600}
+.tblwrap{overflow:auto}
+table.tbl{width:100%;border-collapse:collapse;font:12px var(--mono)}
+table.tbl th{text-align:left;font:10px var(--mono);letter-spacing:1.1px;color:var(--m);padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.tbl td{padding:6px 8px;border-bottom:1px solid #1d2443;white-space:nowrap;vertical-align:middle}
+table.tbl tr:hover td{background:#161b38}table.tbl td.nm{color:#fff;font-weight:600}
+.badge{display:inline-block;border:1px solid #4b5563;border-radius:4px;padding:0 5px;font:10px var(--mono);letter-spacing:.6px;color:#9ca3af}
+.badge.kill{border-color:#7f1d1d;color:var(--r)}.badge.live{border-color:#166534;color:var(--g)}.badge.warn{border-color:#92400e;color:var(--risk)}
+.coins{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.coin{border:1px solid var(--line);border-radius:8px;padding:8px 9px;background:#0f1430;min-width:0}
+.coin b{font:13px var(--mono);color:#e6e9f7;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.coin .nm{font:10.5px var(--mono);color:var(--m)}
+.coin .px{font:15px var(--mono);color:#fff;margin-top:3px}
+.coin .ch{font:11px var(--mono)}
+.poslist{font:12.5px var(--mono)}
+.poslist .row{display:grid;grid-template-columns:1fr auto auto auto;gap:10px;padding:7px 0;border-bottom:1px solid #1d2443;align-items:center}
+.poslist .empty{color:var(--m);padding:8px 0}
+.tail{font:11.5px var(--mono);height:280px;overflow:auto;white-space:nowrap;background:#0a0e1c;border:1px solid #1a2040;border-radius:8px;padding:8px 10px}
+.tail div{overflow:hidden;text-overflow:ellipsis}.tail .t{color:#5b638a}
+.L-START,.L-SYS{color:var(--log)}.L-BAR_SCAN{color:#8a93b8}.L-FILL,.L-ORDER{color:var(--exec)}
+.L-EXIT{color:var(--log)}.L-WIN{color:var(--g)}.L-LOSS,.L-SHIELD_BLOCK,.L-SHIELD_HALT,.L-CANCEL{color:var(--r)}
+.tail b{color:#e6e9f7;font-weight:600}
+.tail div.fresh{animation:fadeIn .4s ease}
+.tail div.fresh .msg{display:inline-block;max-width:100%;overflow:hidden;vertical-align:bottom;animation:typeon .55s steps(36,end)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes typeon{from{max-width:0}to{max-width:100%}}
+.tailnote{margin-top:6px;font:10.5px var(--mono);color:var(--m);letter-spacing:0;white-space:normal}
+.foot{padding:4px 16px 14px;font:11px var(--mono);color:var(--m);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+@media(max-width:860px){
+  .win{margin:0;border-radius:0;border-left:0;border-right:0}.grid{display:flex;flex-direction:column;padding:0 8px 10px;gap:10px}
+  .side{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.pn{padding:10px}.chrome .ttl{text-align:left}
+  .hdr{padding:12px}.ava{width:56px;height:56px;gap:9px}.ava b{width:7px;height:16px}.ttlb h1{font-size:22px}.bal{width:100%;text-align:left;margin:0}.bal .big{font-size:34px}
+  .metrics,.coins{grid-template-columns:repeat(2,1fr)}.split{grid-template-columns:1fr}
+  .ag .rule{font-size:12px}.agh .nm{font-size:15px}.agh .rl{font-size:12px}.ag{padding:9px}.ico{display:none}
+  .poslist .row{grid-template-columns:1fr 1fr;gap:4px}
+}
+</style></head>
+<body>
+<div class="win">
+  <div class="chrome"><i style="background:#f472b6"></i><i style="background:#facc15"></i><i style="background:#5eead4"></i><span class="ttl">grok-bot — <a class="navx" href="../">sol-desk</a> — Quant Desk · Binance — paper only</span><span class="paperb">PAPER ✓ · تداول تجريبي — بدون أموال حقيقية</span></div>
+  <div class="snapb">👁 عرض فقط — تداول تجريبي — بدون أموال حقيقية · view only · paper trading · no real funds · no Binance account</div>
+  <div class="hdr">
+    <div class="ava"><b></b><b></b></div>
+    <div class="ttlb">
+      <h1><span>Quant Desk</span> · Binance <span class="pill desk">turtle_4h</span></h1>
+      <div class="run"><span class="dot" id="dot"></span><span id="stxt">STATUS —</span> · <span id="upt">00:00:00</span><span class="livetag off" id="livetag"><i></i>LIVE</span><span class="pill warnpill" id="unp">UNPROVEN</span></div>
+      <div class="tag">Radar · Lab · Forge · Shield · 15m universe · paper $1,000</div>
+      <div class="ar">تداول تجريبي — بدون أموال حقيقية · <span id="clock"></span> KSA · <span id="upd">last update —</span></div>
+    </div>
+    <div class="bal"><div class="big" id="bal">$1,000.00</div><div class="sub" id="balsub">paper equity · started at $1,000</div>
+      <div class="wl"><span id="ntr">0 trades</span> · <span class="ok" id="nw">0 W</span> · <span class="bad" id="nl">0 L</span> · <span id="roi">P&amp;L $0.00</span> · <span id="daily">today $0.00</span></div></div>
+  </div>
+  <div class="grid">
+    <div class="side">
+      <div class="ag" id="cRadar" style="color:var(--scout)"><div class="agh"><div class="ico">📡</div><div><div class="nm">RADAR</div><div class="rl">ranks the top 20 coins</div></div><span class="bd">SCAN</span></div>
+        <div class="rule">Binance spot · 15m bars + funding</div><div class="ft" id="fRadar">ideas 0</div></div>
+      <div class="ag" id="cLab" style="color:var(--analyst)"><div class="agh"><div class="ico">🧪</div><div><div class="nm">LAB</div><div class="rl">walk-forward, then kill</div></div><span class="bd">TEST</span></div>
+        <div class="rule">4y OOS after fees + slip</div><div class="ft" id="fLab">tested 0</div></div>
+      <div class="ag act" id="cForge" style="color:var(--exec)"><div class="agh"><div class="ico">⚙️</div><div><div class="nm">FORGE</div><div class="rl">runs the paper bot</div></div><span class="bd" id="bForge">IDLE</span></div>
+        <div class="rule">active setup · live Binance prices</div><div class="ft" id="fForge">no open trades</div></div>
+      <div class="ag" id="cShield" style="color:var(--risk)"><div class="agh"><div class="ico">🛡️</div><div><div class="nm">SHIELD</div><div class="rl">gates every entry</div></div><span class="bd" id="bShield">OK</span></div>
+        <div class="rule">daily stop −3% · 3 losses → 24h pause</div><div class="ft" id="fShield">blocks 0</div></div>
+    </div>
+    <div class="main">
+      <div class="pn full">
+        <div class="ph">ACCOUNT · SHIELD · PAPER ONLY<span class="r" id="shline">shield OK</span></div>
+        <div class="metrics">
+          <div class="metric"><div class="k">EQUITY</div><div class="v" id="mEq">$1,000</div><div class="s" id="mEqs">vs $1,000 start</div></div>
+          <div class="metric"><div class="k">P&amp;L</div><div class="v" id="mPnl">$0.00</div><div class="s" id="mPnlp">+0.00%</div></div>
+          <div class="metric"><div class="k">TODAY</div><div class="v" id="mDay">$0.00</div><div class="s" id="mDays">UTC day vs open equity</div></div>
+          <div class="metric"><div class="k">SHIELD</div><div class="v" id="mSh">OK</div><div class="s" id="mShs">no halt · 0 blocks</div></div>
+        </div>
+      </div>
+      <div class="pn full">
+        <div class="ph">ACTIVE STRATEGY · TURTLE_4H<span class="r">marked UNPROVEN · did not beat buy &amp; hold</span></div>
+        <div class="split">
+          <div>
+            <div class="mut mono" style="margin-bottom:6px" id="idea">Turtle-style 20×4h breakout with 10×4h exit.</div>
+            <ul class="rules" id="rules"></ul>
+            <div class="nums" id="snums"></div>
+          </div>
+          <div class="failbox">
+            <h3>WHY THIS COULD FAIL</h3>
+            <ul id="whyfail" style="margin:0;padding-left:18px"></ul>
+          </div>
+        </div>
+      </div>
+      <div class="pn full">
+        <div class="ph">RANKED SETUPS · TOP 10<span class="r" id="ranksrc">research/ranked.json</span></div>
+        <div class="tblwrap"><table class="tbl" id="ranktbl"><thead><tr>
+          <th>#</th><th>SETUP</th><th>FAMILY</th><th>OOS %</th><th>MAX DD</th><th>WIN%</th><th>TRADES</th><th>PF</th><th>STREAK</th><th>STATUS</th>
+        </tr></thead><tbody id="rankbody"></tbody></table></div>
+        <div class="tailnote" id="ranknote"></div>
+      </div>
+      <div class="split">
+        <div class="pn">
+          <div class="ph">OPEN POSITIONS<span class="r" id="posr">0 open · max 3</span></div>
+          <div class="poslist" id="poslist"><div class="empty">no open paper trades</div></div>
+        </div>
+        <div class="pn">
+          <div class="ph">PENDING / RECENT<span class="r" id="recents">—</span></div>
+          <div class="poslist" id="recent"><div class="empty">no fills yet</div></div>
+        </div>
+      </div>
+      <div class="pn full">
+        <div class="ph">LIVE PRICES · TOP 20<span class="r" id="pxsrc">waiting for ticker</span></div>
+        <div class="coins" id="coins"></div>
+      </div>
+      <div class="pn full">
+        <div class="ph">TERMINAL · TAIL -F LOGS/DECISIONS.JSONL<span class="r" id="tailline">0 lines</span></div>
+        <div class="tail" id="tail"></div>
+        <div class="tailnote">Real forge decisions only. New lines append when the snapshot updates (~60s). Prices above refresh every few seconds from a public Binance ticker — they are not trades.</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>view only · <span class="ar">تداول تجريبي — بدون أموال حقيقية</span> · <a class="navx" href="../">← sol-desk (Solana)</a></div>
+    <div id="footupd">snapshot —</div>
+  </div>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sg = v => v >= 0 ? '+' : '';
+const upt = s => [Math.floor(s/3600), Math.floor(s%3600/60), Math.floor(s%60)].map(x => String(x).padStart(2,'0')).join(':');
+const ago = ms => {
+  if (ms == null || ms < 0) return '—';
+  const s = Math.max(0, Math.round(ms / 1000));
+  if (s < 60) return s + 's ago';
+  if (s < 3600) return Math.floor(s/60) + 'm ' + (s%60) + 's ago';
+  return Math.floor(s/3600) + 'h ' + Math.floor(s%3600/60) + 'm ago';
+};
+const usd = (n, d=2) => {
+  if (n == null || !Number.isFinite(+n)) return '—';
+  const v = +n;
+  const abs = Math.abs(v);
+  const digits = abs >= 1000 ? 2 : abs >= 1 ? d : abs >= 0.01 ? 4 : 6;
+  return (v < 0 ? '-' : '') + '$' + Math.abs(v).toLocaleString('en-US', {minimumFractionDigits: digits, maximumFractionDigits: digits});
+};
+const pxfmt = n => {
+  if (n == null || !Number.isFinite(+n)) return '—';
+  const v = +n, a = Math.abs(v);
+  return a >= 100 ? v.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
+    : a >= 1 ? v.toFixed(3) : a >= 0.01 ? v.toFixed(5) : v.toPrecision(4);
+};
+const pct = (n, d=2) => n == null || !Number.isFinite(+n) ? '—' : sg(+n) + (+n).toFixed(d) + '%';
+const cls = n => (n == null || !Number.isFinite(+n) || +n === 0) ? 'mut' : +n > 0 ? 'ok' : 'bad';
+
+let ST = null, lastOk = 0, lastLiveAt = 0, lastPxErr = 0, livePrices = {}, liveChg = {};
+const tailKeys = new Set();
+let tailInit = false;
+const TICKER = 'https://data-api.binance.vision/api/v3/ticker/24hr';
+const TICKER_FB = 'https://data-api.binance.vision/api/v3/ticker/price';
+
+function symbols() {
+  return (ST && ST.universe && ST.universe.length) ? ST.universe.map(u => u.symbol) : Object.keys((ST && ST.prices) || {});
+}
+function priceOf(sym) {
+  if (livePrices[sym] != null) return livePrices[sym];
+  if (ST && ST.prices && ST.prices[sym] != null) return ST.prices[sym];
+  return null;
+}
+function fee() { return (ST && ST.fee) || 0.001; }
+
+function liveEquity() {
+  if (!ST) return 0;
+  const feeRate = fee();
+  let u = 0;
+  for (const p of (ST.positions || [])) {
+    const px = priceOf(p.symbol);
+    if (px == null || p.entry == null || p.qty == null) { u += p.pnl_usd || 0; continue; }
+    u += p.d * (px - p.entry) * p.qty - feeRate * px * p.qty;
+  }
+  return (ST.cash || 0) + u;
+}
+
+function ksaClock() {
+  return new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Riyadh' });
+}
+
+function logKey(l) {
+  return (l.ts || '') + '|' + (l.line || l.type || '') + '|' + (l.id || '');
+}
+function makeLine(l, animate) {
+  const div = document.createElement('div');
+  const typ = String(l.type || 'SYS').toUpperCase();
+  let color = typ;
+  if (typ === 'EXIT' && (l.pnl_usd || 0) > 0) color = 'WIN';
+  if (typ === 'EXIT' && (l.pnl_usd || 0) <= 0) color = 'LOSS';
+  const ts = (l.ts || '').replace('T', ' ').replace('Z', 'Z');
+  const msg = l.line || typ;
+  div.className = (animate ? 'fresh ' : '') + 'L-' + color;
+  div.innerHTML = `<span class="t">${esc(ts.slice(11,19) || ts)}</span>  <span class="msg">${esc(msg.replace(/^\S+\s+/, ''))}</span>`;
+  return div;
+}
+function appendLine(l, animate) {
+  const T = $('tail');
+  const pinned = T.scrollTop + T.clientHeight >= T.scrollHeight - 36;
+  T.appendChild(makeLine(l, animate));
+  tailKeys.add(logKey(l));
+  while (T.children.length > 200) T.removeChild(T.firstElementChild);
+  if (pinned) T.scrollTop = T.scrollHeight;
+}
+function syncTail() {
+  const lines = (ST && ST.decisions) || [];
+  const T = $('tail');
+  if (!lines.length && !tailInit) return;
+  const overlap = tailInit && lines.some(l => tailKeys.has(logKey(l)));
+  if (!tailInit || (lines.length && !overlap)) {
+    T.innerHTML = '';
+    tailKeys.clear();
+    for (const l of lines) {
+      T.appendChild(makeLine(l, false));
+      tailKeys.add(logKey(l));
+    }
+    tailInit = true;
+    T.scrollTop = T.scrollHeight;
+    return;
+  }
+  const fresh = lines.filter(l => !tailKeys.has(logKey(l)));
+  fresh.forEach((l, i) => appendLine(l, i >= fresh.length - 8));
+}
+
+function renderStatus() {
+  if (!ST) return;
+  const ageMs = Date.now() - (lastOk || ST.now || 0);
+  const snapAge = Date.now() - (ST.now || 0);
+  const botLive = ST.status === 'RUNNING' && snapAge < 180000;
+  const livePx = lastLiveAt && (Date.now() - lastLiveAt < 20000);
+  $('dot').className = 'dot' + (botLive ? '' : ' off');
+  $('livetag').className = 'livetag' + (botLive || livePx ? '' : ' off');
+  $('stxt').textContent = botLive ? 'STATUS RUNNING' : 'STATUS STOPPED';
+  const start = ST.started_at ? Date.parse(ST.started_at) : NaN;
+  const up = Number.isFinite(start)
+    ? Math.max(0, Math.round(((botLive ? Date.now() : (ST.now || Date.now())) - start) / 1000))
+    : (ST.uptime_sec || 0);
+  $('upt').textContent = upt(up);
+  $('clock').textContent = ksaClock();
+  const parts = ['snapshot ' + ago(ageMs)];
+  if (lastLiveAt) parts.push('prices ' + ago(Date.now() - lastLiveAt));
+  if (lastPxErr) parts.push('ticker error ' + ago(Date.now() - lastPxErr));
+  $('upd').textContent = parts.join(' · ');
+  $('footupd').textContent = 'snapshot ' + (ST.generated_at || '') + ' · heartbeat ' + (ST.heartbeat_age_s == null ? '—' : ST.heartbeat_age_s + 's');
+}
+
+function posPnl(p) {
+  const px = priceOf(p.symbol);
+  if (px == null || p.entry == null || p.qty == null) return { usd: p.pnl_usd || 0, pct: p.pnl_pct || 0, px: p.last_price };
+  const usdV = p.d * (px - p.entry) * p.qty - fee() * px * p.qty;
+  const denom = p.entry * p.qty;
+  return { usd: usdV, pct: denom ? usdV / denom * 100 : 0, px };
+}
+
+function render(opts) {
+  if (!ST) return;
+  const eq = liveEquity();
+  const start = ST.start_equity || 1000;
+  const pnl = eq - start;
+  const pnlPct = start ? pnl / start * 100 : 0;
+  const dayPnl = (ST.daily_pnl_usd || 0) + (eq - (ST.equity || eq));
+  const dayPct = (ST.day_start_equity || ST.start_equity) ? dayPnl / (ST.day_start_equity || ST.start_equity) * 100 : ST.daily_pnl_pct;
+  $('bal').textContent = usd(eq);
+  $('balsub').textContent = 'paper equity · started at ' + usd(start) + ' · cash ' + usd(ST.cash);
+  $('ntr').textContent = (ST.trades || 0) + ' trades';
+  $('nw').textContent = (ST.wins || 0) + ' W';
+  $('nl').textContent = (ST.losses || 0) + ' L';
+  $('roi').className = cls(pnl);
+  $('roi').textContent = 'P&L ' + (pnl >= 0 ? '+' : '') + usd(pnl) + ' (' + pct(pnlPct) + ')';
+  $('daily').className = cls(dayPnl);
+  $('daily').textContent = 'today ' + (dayPnl >= 0 ? '+' : '') + usd(dayPnl);
+  $('mEq').textContent = usd(eq);
+  $('mEqs').textContent = 'vs ' + usd(start) + ' start';
+  $('mPnl').className = 'v ' + cls(pnl);
+  $('mPnl').textContent = sg(pnl) + usd(Math.abs(pnl));
+  $('mPnlp').textContent = pct(pnlPct) + ' paper';
+  $('mDay').className = 'v ' + cls(dayPnl);
+  $('mDay').textContent = sg(dayPnl) + usd(Math.abs(dayPnl));
+  $('mDays').textContent = pct(dayPct) + ' vs day-start equity';
+
+  const T = ST.team || {};
+  const R = T.radar || {}, L = T.lab || {}, F = T.forge || {}, S = T.shield || {};
+  const btc30 = R.btc_ret_30d != null ? (R.btc_ret_30d * 100) : null;
+  $('fRadar').textContent = 'ideas ' + (R.ideas || 0) + ' · ranked ' + (R.ranked_coins || 0) + ' · BTC ' + (R.btc_regime || '—') + (btc30 == null ? '' : ' 30d ' + pct(btc30, 1));
+  $('fLab').textContent = 'tested ' + (L.tested || 0) + ' · killed ' + (L.killed || 0) + ' · survivors ' + (L.survivors || 0);
+  $('fForge').textContent = 'setup ' + (F.active || '—') + ' · open ' + (F.open || 0) + ' · pending ' + (F.pending || 0) + ' · scans ' + (F.scans || 0);
+  $('bForge').textContent = (ST.status === 'RUNNING' ? (F.open ? 'IN TRADE' : 'WATCH') : 'STOPPED');
+  $('cForge').className = 'ag' + (ST.status === 'RUNNING' ? ' act' : '');
+  $('bShield').textContent = S.status || 'OK';
+  $('fShield').textContent = 'blocks ' + (S.blocks || 0) + ' · consec losses ' + (S.consec_losses || 0) + '/' + (S.max_consec_losses || 3)
+    + (S.until ? ' · pause until ' + S.until : '');
+  $('mSh').className = 'v ' + ((S.status && S.status !== 'OK') ? 'bad' : 'ok');
+  $('mSh').textContent = S.status || 'OK';
+  $('mShs').textContent = (S.halt && S.halt.detail) ? S.halt.detail : ((S.blocks || 0) + ' blocks · daily stop ' + (S.daily_stop_pct ?? -3) + '%');
+  $('shline').textContent = 'shield ' + (S.status || 'OK') + ' · daily stop ' + (S.daily_stop_pct ?? -3) + '% · 3-loss pause 24h';
+
+  const A = ST.active_setup || {};
+  $('idea').textContent = A.reason || '';
+  $('unp').textContent = A.status || 'UNPROVEN';
+  $('rules').innerHTML = (A.rules || []).map((r, i) => `<li class="ok"><i>✓</i><span>${esc(r)}</span></li>`).join('');
+  const bh = A.buy_hold_oos_pct, oos = A.oos_return_pct, dd = A.max_dd_pct;
+  $('snums').innerHTML = [
+    ['OOS return', pct(oos, 1), cls(oos)],
+    ['Max drawdown', (dd == null ? '—' : dd.toFixed(1) + '%'), 'bad'],
+    ['Buy & hold OOS', pct(bh, 1), cls(bh)],
+    ['Win rate', (A.win_rate_pct == null ? '—' : A.win_rate_pct + '%'), ''],
+    ['OOS trades', A.trades ?? '—', ''],
+    ['Profit factor', A.profit_factor ?? '—', ''],
+    ['Longest losing streak', A.longest_losing_streak ?? '—', 'bad'],
+    ['2× fees still', pct(A.oos_double_fee_pct, 1), cls(A.oos_double_fee_pct)]
+  ].map(([k,v,c]) => `<div><span class="mut">${k}</span><b class="${c}">${v}</b></div>`).join('');
+  $('whyfail').innerHTML = (A.why_fail || []).map(x => `<li>${esc(x)}</li>`).join('');
+
+  const rows = (ST.ranked && ST.ranked.rows) || [];
+  $('ranksrc').textContent = (ST.ranked && ST.ranked.source) ? ('research/' + ST.ranked.source) : 'research/ranked.json';
+  $('rankbody').innerHTML = rows.map((r, i) => {
+    const killed = String(r.status || '').toLowerCase() === 'killed' || (r.kill_reasons || []).length;
+    const st = r.id === (A.id || 'turtle_4h') ? 'UNPROVEN' : (killed ? 'KILLED' : (r.status || '').toUpperCase() || '—');
+    const badge = st === 'UNPROVEN' ? 'warn' : st === 'KILLED' ? 'kill' : '';
+    return `<tr>
+      <td class="mut">${i+1}</td>
+      <td class="nm">${esc(r.id)}</td>
+      <td class="mut">${esc(r.family || '')}</td>
+      <td class="${cls(r.oos_return_pct)}">${pct(r.oos_return_pct, 1)}</td>
+      <td class="bad">${r.max_dd_pct == null ? '—' : r.max_dd_pct.toFixed(1) + '%'}</td>
+      <td>${r.win_rate_pct == null ? '—' : r.win_rate_pct.toFixed(1) + '%'}</td>
+      <td>${r.trades ?? '—'}</td>
+      <td>${r.profit_factor == null ? '—' : r.profit_factor.toFixed(2)}</td>
+      <td>${r.longest_losing_streak ?? '—'}</td>
+      <td><span class="badge ${badge}">${esc(st)}</span></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="10" class="mut">no ranked results yet</td></tr>';
+  const note = (ST.ranked && ST.ranked.note) || '';
+  const per = (ST.ranked && ST.ranked.oos_period) || '';
+  const bhN = ST.ranked && ST.ranked.buy_hold_oos_pct;
+  $('ranknote').textContent = [per && ('OOS ' + per), bhN != null && ('equal-weight buy&hold ' + pct(bhN, 1)), note].filter(Boolean).join(' · ');
+
+  const pos = ST.positions || [];
+  $('posr').textContent = pos.length + ' open · max ' + (ST.max_open || 3);
+  $('poslist').innerHTML = pos.length ? pos.map(p => {
+    const m = posPnl(p);
+    const side = p.d === -1 ? 'SHORT' : 'LONG';
+    return `<div class="row"><div><b>${esc(p.symbol)}</b> <span class="mut">${esc(p.setup || '')} · ${side}</span></div>
+      <div class="mut">entry ${pxfmt(p.entry)} → ${pxfmt(m.px)}</div>
+      <div class="mut">stop ${pxfmt(p.stop)}</div>
+      <div class="${cls(m.usd)}">${sg(m.usd)}${usd(Math.abs(m.usd))} (${pct(m.pct, 2)})</div></div>`;
+  }).join('') : '<div class="empty">no open paper trades</div>';
+
+  const pending = ST.pending || [];
+  const closed = (ST.closed || []).slice().reverse().slice(0, 6);
+  $('recents').textContent = pending.length ? (pending.length + ' pending') : (closed.length ? (closed.length + ' recent closes') : 'none');
+  let rec = '';
+  for (const o of pending) {
+    rec += `<div class="row"><div><b>${esc(o.symbol)}</b> <span class="mut">PENDING ${esc(o.type || '')}</span></div>
+      <div class="mut">${esc(o.setup || '')}</div><div class="mut">stop ${pxfmt(o.stop)}</div><div class="mut">ref ${pxfmt(o.ref_price)}</div></div>`;
+  }
+  for (const p of closed) {
+    rec += `<div class="row"><div><b>${esc(p.symbol)}</b> <span class="mut">${esc(p.setup || '')} · closed</span></div>
+      <div class="mut">${pxfmt(p.entry)} → ${pxfmt(p.exit)}</div>
+      <div class="mut">${esc((p.exit_reason || '').slice(0, 42))}</div>
+      <div class="${cls(p.pnl_usd)}">${sg(p.pnl_usd||0)}${usd(Math.abs(p.pnl_usd||0))}</div></div>`;
+  }
+  $('recent').innerHTML = rec || '<div class="empty">no fills yet</div>';
+
+  const uni = ST.universe || [];
+  $('coins').innerHTML = uni.map(u => {
+    const px = priceOf(u.symbol);
+    const ch = liveChg[u.symbol];
+    return `<div class="coin"><b>${esc(u.symbol.replace(/USDT$/, ''))}</b><span class="nm">${esc(u.name || u.symbol)}</span>
+      <div class="px">${pxfmt(px)}</div>
+      <div class="ch ${ch == null ? 'mut' : cls(ch)}">${ch == null ? '—' : pct(ch, 2)}</div></div>`;
+  }).join('') || '<div class="mut">no universe</div>';
+
+  $('tailline').textContent = ((ST.decisions || []).length) + ' lines';
+  if (!opts || !opts.skipTail) syncTail();
+  renderStatus();
+}
+
+async function refreshPrices() {
+  const syms = symbols();
+  if (!syms.length) return;
+  const q = encodeURIComponent(JSON.stringify(syms));
+  const apply24 = rows => {
+    if (!Array.isArray(rows)) rows = [rows];
+    for (const r of rows) {
+      if (!r || !r.symbol) continue;
+      const px = parseFloat(r.lastPrice || r.price);
+      if (Number.isFinite(px)) livePrices[r.symbol] = px;
+      const ch = parseFloat(r.priceChangePercent);
+      if (Number.isFinite(ch)) liveChg[r.symbol] = ch;
+    }
+  };
+  try {
+    const r = await fetch(TICKER + '?symbols=' + q, { cache: 'no-store' });
+    if (r.ok) {
+      apply24(await r.json());
+      lastLiveAt = Date.now();
+      lastPxErr = 0;
+      $('pxsrc').textContent = 'data-api.binance.vision · 24h ticker · live in this browser';
+      if (ST) render({ skipTail: true });
+      return;
+    }
+  } catch (e) {}
+  try {
+    const r = await fetch(TICKER_FB + '?symbols=' + q, { cache: 'no-store' });
+    if (!r.ok) throw new Error('ticker ' + r.status);
+    const rows = await r.json();
+    apply24(Array.isArray(rows) ? rows : [rows]);
+    lastLiveAt = Date.now();
+    lastPxErr = 0;
+    $('pxsrc').textContent = 'data-api.binance.vision · last price · live in this browser';
+    if (ST) render({ skipTail: true });
+  } catch (e) {
+    lastPxErr = Date.now();
+    $('pxsrc').textContent = 'ticker unavailable · showing last forge prices';
+  }
+}
+
+async function poll() {
+  try {
+    const r = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' });
+    if (!r.ok) throw new Error('data.json ' + r.status);
+    ST = await r.json();
+    lastOk = Date.now();
+    render({ skipTail: false });
+    refreshPrices();
+  } catch (e) {
+    if (ST) renderStatus();
+  }
+}
+
+setInterval(renderStatus, 1000);
+poll();
+setInterval(poll, 10000);
+setInterval(refreshPrices, 5000);
+</script>
+</body></html>
