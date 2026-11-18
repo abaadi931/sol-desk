@@ -71,7 +71,7 @@ svg{width:100%;height:120px}
   <div id="pane-live" class="pane on" role="tabpanel" aria-labelledby="tab-live">
     <div class="haltban" id="haltban"></div>
     <div class="hdr">
-      <div class="ttl"><h1 style="font-size:18px">الحساب <span>الحقيقي</span></h1><div class="sub">رصيد المحفظة على شبكة سولانا · الأسعار من DexScreener</div><div class="sub" id="gtaprio" style="color:#ffd27a;margin-top:4px">🎮 أولوية لعملات GTA6 (بشرط تعدّي الأمان)</div></div>
+      <div class="ttl"><h1 style="font-size:18px">الحساب <span>الحقيقي</span></h1><div class="sub">رصيد المحفظة على شبكة سولانا · الأسعار من DexScreener</div><div class="sub" id="gtaprio" style="color:#ffd27a;margin-top:4px">🎮 أولوية لعملات GTA6 (بشرط تعدّي الأمان)</div><div class="sub" id="livemode" style="color:#9ad0ff;margin-top:4px">صفقة واحدة في كل مرة بكل الرصيد الحر (بعد احتياطي الرسوم)</div></div>
       <div class="bal"><div class="big" id="lbal">—</div><div class="sub" id="lbalsub">الرصيد الحقيقي</div><div class="sub" id="lwl"></div></div>
     </div>
     <div class="grid">
@@ -210,6 +210,7 @@ function renderLive(){
   else {hb.className='haltban'; hb.textContent='';}
   $('livebox').innerHTML=[
     ['الوضع',real?'<b class="bad">حقيقي — يشتري بفلوس حقيقية</b>':'<b style="color:var(--b)">التداول الحقيقي مطفي</b>'],
+    ['طريقة الشراء',`<span class="n">صفقة واحدة بكل الرصيد الحر</span><span class="mut"> · احتياطي الرسوم ≥ ${ls.reserveSol||0.02} SOL · حد ${ls.maxOpen||1} صفقة مفتوحة</span>`],
     ['رصيد المحفظة الحين (على السلسلة)',`<span class="n">${cashSol}${cashU}</span>`],
     ['إجمالي الرصيد (كاش + الصفقات)',`<span class="n">${usd(eqUsd)} · ${sol(eqSol,4)}</span>`],
     ['آخر قراءة للرصيد',`<span class="n">${hm(L.balanceAt)}</span>`],
@@ -218,7 +219,7 @@ function renderLive(){
     ['قاطع الحماية',L.halted?`<span class="bad">موقف الشراء: ${esc(L.haltReason)}</span>`:`<span class="mut">يوقف الشراء إذا نزل الرصيد ${ls.breakerPct||50}% تحت الإيداعات</span>`]
   ].map(([k,v])=>`<div class="kv"><span>${k}</span><span>${v}</span></div>`).join('');
   $('deps').innerHTML='<div class="mut" style="font-size:13px;margin-bottom:4px">الإيداعات المكتشفة</div>'+((L.deposits||[]).length?'<div class="scroll"><table><thead><tr><th>الوقت</th><th>المبلغ</th><th>من</th><th>المعاملة</th></tr></thead><tbody>'+L.deposits.map(d=>`<tr><td class="n">${dt(d.t)}</td><td class="n ok">+${sol(d.sol)}${d.usd?' ≈ '+usd(d.usd):''}</td><td class="n">${esc(d.from)}</td><td><a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(d.sig)}">${esc((d.sig||'').slice(0,10))}…</a></td></tr>`).join('')+'</tbody></table></div>':'<div class="mut">ما وصل أي إيداع للحين.</div>');
-  $('lopn').textContent=`${pos.length}/${ls.maxOpen||2}`;
+  $('lopn').textContent=`${pos.length}/${ls.maxOpen||1}`;
   $('lpos').innerHTML=pos.length?pos.map(p=>`<tr><td><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.sym)}</a></td><td class="n">${sol(p.costSol)}${p.costUsd?' · '+usd(p.costUsd):''}</td><td class="n">${usd(p.val)}</td><td class="n">${px(p.entryPrice)}</td><td class="n">${px(p.lp)}</td><td class="n ${p.pp>=0?'ok':'bad'}">${sg(p.pp)}</td><td class="n">${px(p.stopPrice)}${p.halfTaken?' ↟':''}</td><td>${p.buySig?`<a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(p.buySig)}">شراء</a>`:'—'}</td></tr>`).join(''):`<tr><td colspan="8" class="mut">${real?'مفعّل وينتظر إشارة من فومو.':'ما فيه صفقات حقيقية مفتوحة.'}</td></tr>`;
   $('lcls').textContent=hs.length;
   $('lhist').innerHTML=hs.length?hs.map(h=>`<tr><td class="n">${dt(h.closedAt)}</td><td><a href="${esc(h.url)}" target="_blank" rel="noopener">${esc(h.sym)}</a></td><td class="n">${esc(h.reason)}${h.halfTaken?' · ½@2x':''}</td><td class="n ${(h.pnlSol||h.pnlPct)>=0?'ok':'bad'}">${(h.pnlSol>=0?'+':'')+sol(h.pnlSol||0)} (${sg(h.pnlPct)})</td><td>${h.buySig?`<a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(h.buySig)}">شراء</a>`:''} ${(h.sells||[]).map(x=>`<a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(x)}">بيع</a>`).join(' ')}</td></tr>`).join(''):'<tr><td colspan="5" class="mut">ما قفل صفقات حقيقية للحين</td></tr>';
