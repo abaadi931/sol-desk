@@ -367,9 +367,15 @@ function render(opts) {
   const rows = (ST.ranked && ST.ranked.rows) || [];
   $('ranksrc').textContent = (ST.ranked && ST.ranked.source) ? ('research/' + ST.ranked.source) : 'research/ranked.json';
   $('rankbody').innerHTML = rows.map((r, i) => {
-    const killed = String(r.status || '').toLowerCase() === 'killed' || (r.kill_reasons || []).length;
-    const st = r.id === (A.id || 'turtle_4h') ? 'UNPROVEN' : (killed ? 'KILLED' : (r.status || '').toUpperCase() || '—');
-    const badge = st === 'UNPROVEN' ? 'warn' : st === 'KILLED' ? 'kill' : '';
+    const raw = String(r.status || '');
+    const killed = raw.toLowerCase() === 'killed' || ((r.kill_reasons || []).length && !raw.startsWith('survived'));
+    const pretty = ({
+      survived_beats_bh_raw: 'BEATS BH',
+      survived_beats_bh_risk_adjusted: 'BEATS BH · RISK',
+      survived_no_edge_vs_bh: 'NO EDGE VS BH'
+    })[raw] || (raw ? raw.replace(/_/g, ' ').toUpperCase() : '—');
+    const st = r.id === (A.id || 'turtle_4h') ? 'UNPROVEN' : (killed ? 'KILLED' : pretty);
+    const badge = st === 'UNPROVEN' ? 'warn' : st === 'KILLED' ? 'kill' : (String(st).includes('BEATS') ? 'live' : '');
     return `<tr>
       <td class="mut">${i+1}</td>
       <td class="nm">${esc(r.id)}</td>
