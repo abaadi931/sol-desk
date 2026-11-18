@@ -158,7 +158,7 @@ const ago = ms => {
 const usd = (n, d=2) => {
   if (n == null || !Number.isFinite(+n)) return '—';
   const v = +n, abs = Math.abs(v);
-  const digits = abs >= 1000 ? 2 : abs >= 1 ? d : abs >= 0.01 ? 4 : 6;
+  const digits = (abs >= 1000 || abs === 0) ? 2 : abs >= 1 ? d : abs >= 0.01 ? 4 : 6;
   return (v < 0 ? '-' : '') + '$' + abs.toLocaleString('en-US', {minimumFractionDigits: digits, maximumFractionDigits: digits});
 };
 const susd = v => (v >= 0 ? '+' : '-') + usd(Math.abs(v || 0));
