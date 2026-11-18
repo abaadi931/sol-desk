@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0a0e1c">
 <meta http-equiv="Cache-Control" content="no-cache">
-<title>حساب المُضاعِف (Compounder) — تداول تجريبي، عرض فقط</title>
+<title>حساب المُضاعِف (Compounder) — عرض فقط</title>
 <!-- public live ui compounder-v1 2026-11-18 — real data only, view only, paper -->
 <style>
 :root{--bg:#080b17;--win:#0d1124;--p:#111630;--line:#242b4a;--t:#d7dcf0;--m:#7c84a6;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:"Noto Sans Arabic","Segoe UI Arabic",Tahoma,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--g:#4ade80;--r:#f87171;--y:#facc15;--c:#5eead4;--v:#a78bfa;--b:#60a5fa}
@@ -28,20 +28,39 @@ table{width:100%;border-collapse:collapse;font-size:12.5px}th,td{padding:6px 4px
 .tail{background:#05070f;border:1px solid #1a2040;border-radius:8px;height:300px;overflow:auto;padding:8px;font:12px/1.6 var(--mono);direction:ltr;text-align:left}
 .tail .tg{display:inline-block;min-width:48px;font-weight:700}
 .t-BUY{color:var(--g)}.t-WIN{color:var(--g)}.t-LOSS{color:var(--r)}.t-KILL{color:#f472b6}.t-HALF{color:var(--y)}.t-FOMO{color:var(--c)}.t-SKIP{color:var(--m)}.t-EQTY{color:var(--b)}.t-SYS{color:var(--v)}.t-WARN,.t-ERR{color:var(--r)}
+.mode{display:inline-block;border-radius:8px;padding:2px 10px;font-weight:700;font-size:13px;margin-right:8px;vertical-align:middle}.mode.paper{background:#1e2a4a;color:var(--b);border:1px solid var(--b)}.mode.real{background:#3a1420;color:#ff8a8a;border:1px solid var(--r);animation:pl 1.6s infinite}
+.dep{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}.dep img{width:170px;height:170px;background:#fff;border-radius:10px;padding:6px}
+.addr{font:13px var(--mono);direction:ltr;word-break:break-all;background:#05070f;border:1px solid #1a2040;border-radius:8px;padding:8px;margin:6px 0}
+.btn{display:inline-block;border:1px solid var(--v);color:var(--t);background:#1b1640;border-radius:8px;padding:6px 12px;font:600 13px var(--sans);cursor:pointer;margin:4px 0 4px 6px}.btn:hover{background:#2a2160}
+.warn{color:var(--y);font-size:12px}
 .note{font-size:12px;color:var(--m);padding:0 16px 16px}
 svg{width:100%;height:120px}
 </style></head><body>
 <div class="win">
-  <div class="snapb">👁 عرض فقط — تداول تجريبي — بدون أموال حقيقية · بدون محافظ أو مفاتيح</div>
+  <div class="snapb" id="snapb">👁 عرض فقط — ما أحد يقدر يتحكم بالبوت من هنا</div>
   <div class="hdr">
     <div class="ttl">
-      <h1>حساب <span>المُضاعِف</span> <span class="n mut" style="font-size:15px">Compounder</span></h1>
+      <h1>حساب <span>المُضاعِف</span> <span class="n mut" style="font-size:15px">Compounder</span> <span class="mode paper" id="mode">تجريبي</span></h1>
       <div><span class="dot" id="dot"></span><span id="stxt">الحالة: —</span> · مدة التشغيل <span class="n" id="upt">—</span><span class="livetag" id="livetag"><i></i>مباشر LIVE</span></div>
       <div class="sub">العملات من متداولين فومو <span class="n">fomo.family</span> (على السلسلة) · <span class="n" id="clock"></span> بتوقيت الرياض · <span id="upd">آخر تحديث —</span></div>
     </div>
     <div class="bal"><div class="big" id="bal">—</div><div class="sub" id="balsub">الرصيد · البداية $50 · تجريبي</div><div class="sub" id="wl"></div></div>
   </div>
   <div class="grid">
+    <div class="card wide" id="addfunds"><h3>إضافة مبلغ <small>إيداع SOL على شبكة سولانا</small></h3>
+      <div class="dep">
+        <img src="deposit-qr.svg" alt="QR عنوان الإيداع" width="170" height="170">
+        <div style="flex:1;min-width:240px">
+          <div class="mut" style="font-size:13px">أرسل <b>SOL</b> فقط على شبكة <b>سولانا</b> لهذا العنوان (محفظة البوت):</div>
+          <div class="addr" id="addr">EpLZbDbBMBwkwrGNkCppc1DAPpcz3AQ3EpAZFVsVD9Bv</div>
+          <button class="btn" id="copy" type="button">نسخ العنوان</button><a class="btn" id="paylink" href="solana:EpLZbDbBMBwkwrGNkCppc1DAPpcz3AQ3EpAZFVsVD9Bv">فتح في فانتوم / محفظة سولانا</a><a class="btn" target="_blank" rel="noopener" href="https://solscan.io/account/EpLZbDbBMBwkwrGNkCppc1DAPpcz3AQ3EpAZFVsVD9Bv">العنوان على Solscan</a>
+          <div class="warn">⚠️ لا ترسل عملات من شبكة ثانية (ERC20 / BSC). حط مبلغ تتحمل تخسره كله. الإيداع ينحسب تلقائيًا خلال دقيقة تقريبًا.</div>
+        </div>
+        <div style="flex:1;min-width:240px" id="livebox"></div>
+      </div>
+      <div id="deps" style="margin-top:8px"></div>
+    </div>
+    <div class="card wide" id="livetrades"></div>
     <div class="card"><h3>القواعد <small>من المنشور</small></h3><ul class="rules" id="rules"></ul></div>
     <div class="card"><h3>مصدر العملات: فومو <small id="srcok"></small></h3><div id="src"></div></div>
     <div class="card"><h3>منحنى الرصيد <small id="eqr"></small></h3><svg id="eq" viewBox="0 0 300 120" preserveAspectRatio="none"></svg></div>
@@ -50,7 +69,7 @@ svg{width:100%;height:120px}
     <div class="card wide"><h3>سجل البوت <small class="n">tail -f compounder.log</small></h3><div class="tail" id="tail"></div></div>
     <div class="card wide" id="retired"></div>
   </div>
-  <div class="note">كل الأرقام من بيانات حقيقية (سجل معاملات فومو على سولانا، DexScreener، RugCheck)، والرصيد افتراضي. الصفحة تقرأ <span class="n">data.json</span> كل 10 ثواني وأسعار الصفقات المفتوحة من DexScreener كل 5 ثواني. ما أحد يقدر يعدّل شي من هنا.</div>
+  <div class="note">كل الأرقام من بيانات حقيقية (سجل معاملات فومو على سولانا، DexScreener، RugCheck)، والرصيد التجريبي افتراضي. قسم «إضافة مبلغ» يقرأ رصيد المحفظة الحقيقي من شبكة سولانا. الصفحة تقرأ <span class="n">data.json</span> كل 10 ثواني وأسعار الصفقات المفتوحة من DexScreener كل 5 ثواني. ما أحد يقدر يعدّل شي من هنا.</div>
 </div>
 <script>
 const $=id=>document.getElementById(id), KSA={timeZone:'Asia/Riyadh'};
@@ -78,8 +97,25 @@ function render(){
   const ec=(D.equityCurve||[]).map(x=>x.e); if(ec.length>1){const mn=Math.min(...ec,D.startBalanceUsd),mx=Math.max(...ec,D.startBalanceUsd),r=(mx-mn)||1;const pts=ec.map((e,i)=>`${(i/(ec.length-1)*300).toFixed(1)},${(115-(e-mn)/r*110).toFixed(1)}`).join(' ');const by=(115-(D.startBalanceUsd-mn)/r*110).toFixed(1);$('eq').innerHTML=`<line x1="0" x2="300" y1="${by}" y2="${by}" stroke="#7c84a6" stroke-dasharray="3 3" stroke-width=".6"/><polyline fill="none" stroke="${ec[ec.length-1]>=D.startBalanceUsd?'#4ade80':'#f87171'}" stroke-width="1.6" points="${pts}"/>`;$('eqr').innerHTML=`<span class="n">${usd(mn)} – ${usd(mx)}</span>`;}
   const tl=$('tail'), atBottom=tl.scrollTop+tl.clientHeight>=tl.scrollHeight-20;
   tl.innerHTML=(D.log||[]).map(l=>`<div><span class="mut">${l.t?new Date(l.t).toLocaleTimeString('en-GB',KSA):''}</span> <span class="tg t-${esc(l.tag)}">${esc(l.tag)}</span> ${esc(l.msg)}</div>`).join(''); if(atBottom) tl.scrollTop=tl.scrollHeight;
+  renderLive();
   const R=D.retiredSniper; $('retired').innerHTML=R?`<h3>البوتات القديمة <small>أُوقفت 18/11/2026</small></h3><div class="mut" style="font-size:13px">بوت القنص القديم وبوتين باينانس (turtle_4h وdonchian_1d) انوقفوا بطلبك. آخر رصيد لحساب القنص القديم بسعر السوق: <span class="n">${usd(R.equity)}</span> (<span class="n ${R.pnlUsd>=0?'ok':'bad'}">${usd(R.pnlUsd)}</span>) · ${R.wins} ربح / ${R.losses} خسارة${R.openSym?` · كان فيه صفقة مفتوحة ${esc(R.openSym)} <span class="n">${sg(R.openPnlPct)}</span> وقت الإيقاف`:''}. بياناتهم محفوظة نسخة احتياطية.</div>`:'';
 }
+const SOLSCAN='https://solscan.io/tx/', sol=(n,d=4)=>(+n||0).toFixed(d)+' SOL', dt=t=>t?new Date(t).toLocaleString('en-GB',{...KSA,day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
+function renderLive(){
+  const L=D.live; if(!L) return; const real=!!L.armed;
+  $('mode').className='mode '+(real?'real':'paper'); $('mode').textContent=real?'حقيقي':'تجريبي';
+  $('snapb').textContent=real?'🔴 تداول حقيقي مفعّل — أموال حقيقية · 👁 الصفحة عرض فقط':'👁 عرض فقط — الوضع تجريبي (التداول الحقيقي غير مفعّل) · ما أحد يقدر يتحكم بالبوت من هنا';
+  const bal=L.balanceSol==null?'—':sol(L.balanceSol), bu=L.balanceUsd!=null?' ≈ '+usd(L.balanceUsd):'';
+  $('livebox').innerHTML=[['الوضع',real?'<b class="bad">حقيقي — يشتري بفلوس حقيقية</b>':'<b style="color:var(--b)">تجريبي — ما يشتري بفلوس حقيقية</b>'],['رصيد المحفظة الحين (على السلسلة)',`<span class="n">${bal}${bu}</span>`],['آخر قراءة للرصيد',`<span class="n">${hm(L.balanceAt)}</span>`],['مجموع الإيداعات',`<span class="n">${sol(L.depositSol)}${L.depositUsd?' ≈ '+usd(L.depositUsd):''}</span>`],['الربح/الخسارة الحقيقي',L.depositSol?`<span class="n ${L.pnlSol>=0?'ok':'bad'}">${(L.pnlSol>=0?'+':'')+sol(L.pnlSol)} (${sg(L.pnlPct)})</span>`:'<span class="mut">— (ما فيه إيداع)</span>'],['قاطع الحماية',L.halted?`<span class="bad">موقف الشراء: ${esc(L.haltReason)}</span>`:`<span class="mut">يوقف الشراء إذا نزل الرصيد ${L.settings.breakerPct}% تحت الإيداعات</span>`]].map(([k,v])=>`<div class="kv"><span>${k}</span><span>${v}</span></div>`).join('');
+  $('deps').innerHTML='<div class="mut" style="font-size:13px;margin-bottom:4px">الإيداعات المكتشفة</div>'+(L.deposits.length?'<table><thead><tr><th>الوقت</th><th>المبلغ</th><th>من</th><th>المعاملة</th></tr></thead><tbody>'+L.deposits.map(d=>`<tr><td class="n">${dt(d.t)}</td><td class="n ok">+${sol(d.sol)}${d.usd?' ≈ '+usd(d.usd):''}</td><td class="n">${esc(d.from)}</td><td><a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(d.sig)}">${esc(d.sig.slice(0,10))}…</a></td></tr>`).join('')+'</tbody></table>':'<div class="mut">ما وصل أي إيداع للحين.</div>');
+  const ps=L.positions||[], hs=L.history||[];
+  $('livetrades').innerHTML=`<h3>صفقات الحساب الحقيقي <small>${ps.length}/${L.settings.maxOpen} مفتوحة · ${hs.length} مقفلة</small></h3>`+
+   ((ps.length||hs.length)?'<table><thead><tr><th>العملة</th><th>التكلفة</th><th>الحالة</th><th>النتيجة</th><th>المعاملات</th></tr></thead><tbody>'+
+   ps.map(p=>`<tr><td><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.sym)}</a></td><td class="n">${sol(p.costSol)}</td><td>مفتوحة${p.halfTaken?' · ½@2x':''}</td><td class="n ${p.pnlPct>=0?'ok':'bad'}">${sg(p.pnlPct)}</td><td><a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(p.buySig)}">شراء</a></td></tr>`).join('')+
+   hs.map(h=>`<tr><td><a href="${esc(h.url)}" target="_blank" rel="noopener">${esc(h.sym)}</a></td><td class="n">${sol(h.costSol)}</td><td class="n">${esc(h.reason)} · ${hm(h.closedAt)}</td><td class="n ${h.pnlSol>=0?'ok':'bad'}">${(h.pnlSol>=0?'+':'')+sol(h.pnlSol)} (${sg(h.pnlPct)})</td><td><a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(h.buySig)}">شراء</a> ${(h.sells||[]).map(x=>`<a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(x)}">بيع</a>`).join(' ')}</td></tr>`).join('')+'</tbody></table>'
+   :`<div class="mut">${real?'مفعّل وينتظر إشارة من فومو.':'ما فيه صفقات حقيقية — الوضع تجريبي، وكل الصفقات تحت تجريبية.'}</div>`);
+}
+document.addEventListener('click',e=>{if(e.target&&e.target.id==='copy'){const a=$('addr').textContent.trim();const ok=()=>{e.target.textContent='تم النسخ ✓';setTimeout(()=>e.target.textContent='نسخ العنوان',1500)};if(navigator.clipboard)navigator.clipboard.writeText(a).then(ok,()=>{});else{const r=document.createRange();r.selectNodeContents($('addr'));getSelection().removeAllRanges();getSelection().addRange(r);document.execCommand('copy');ok();}}});
 async function load(){try{const r=await fetch('data.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;D=await r.json();lastFetch=Date.now();for(const p of D.positions)live[p.mint]=live[p.mint]||p.lastPrice;render();}catch(e){}}
 async function prices(){if(!D||!D.positions.length)return;try{const m=D.positions.map(p=>p.mint);const r=await fetch('https://api.dexscreener.com/tokens/v1/solana/'+m.join(','),{cache:'no-store'});const a=await r.json();for(const mint of m){const p=a.filter(x=>x.chainId==='solana'&&x.baseToken?.address===mint).sort((x,y)=>(y.liquidity?.usd||0)-(x.liquidity?.usd||0))[0];if(p)live[mint]=+p.priceUsd;}render();}catch(e){}}
 setInterval(()=>{$('clock').textContent=new Date().toLocaleTimeString('en-GB',KSA);if(D){const u=Math.max(0,Math.round((Date.now()-D.startedAt)/1000));$('upt').textContent=[Math.floor(u/3600),Math.floor(u%3600/60),u%60].map(x=>String(x).padStart(2,'0')).join(':');$('upd').textContent='آخر تحديث قبل '+Math.round((Date.now()-D.now)/1000)+' ث';}},1000);
