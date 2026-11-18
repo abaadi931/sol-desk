@@ -3,8 +3,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0a0e1c">
 <meta http-equiv="Cache-Control" content="no-cache">
-<title>حساب المُضاعِف (Compounder) — عرض فقط</title>
-<!-- public live ui compounder-v1 2026-11-18 — real data only, view only, paper -->
+<title>حساب المُضاعِف — حقيقي / تجريبي</title>
+<!-- public live ui compounder-v3 tabs 2026-11-18 — real data only, view only -->
 <style>
 :root{--bg:#080b17;--win:#0d1124;--p:#111630;--line:#242b4a;--t:#d7dcf0;--m:#7c84a6;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:"Noto Sans Arabic","Segoe UI Arabic",Tahoma,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--g:#4ade80;--r:#f87171;--y:#facc15;--c:#5eead4;--v:#a78bfa;--b:#60a5fa}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--t);font:14px/1.55 var(--sans)}
@@ -23,19 +23,37 @@
 .card h3{margin:0 0 8px;font-size:14px;display:flex;justify-content:space-between;gap:8px}.card h3 small{color:var(--m);font-weight:400}
 .kv{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dashed #1e2545;font-size:13px}.kv:last-child{border:0}
 .rules li{margin:3px 0;font-size:13px}.rules{padding-right:18px;margin:0}
-table{width:100%;border-collapse:collapse;font-size:12.5px}th,td{padding:6px 4px;border-bottom:1px solid #1c2342;text-align:right}th{color:var(--m);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:12.5px}th,td{padding:6px 4px;border-bottom:1px solid #1c2342;text-align:right;white-space:nowrap}th{color:var(--m);font-weight:400}
 .wide{grid-column:1/-1}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tail{background:#05070f;border:1px solid #1a2040;border-radius:8px;height:300px;overflow:auto;padding:8px;font:12px/1.6 var(--mono);direction:ltr;text-align:left}
 .tail .tg{display:inline-block;min-width:48px;font-weight:700}
 .t-BUY{color:var(--g)}.t-WIN{color:var(--g)}.t-LOSS{color:var(--r)}.t-KILL{color:#f472b6}.t-HALF{color:var(--y)}.t-FOMO{color:var(--c)}.t-SKIP{color:var(--m)}.t-EQTY{color:var(--b)}.t-SYS{color:var(--v)}.t-WARN,.t-ERR{color:var(--r)}
 .mode{display:inline-block;border-radius:8px;padding:2px 10px;font-weight:700;font-size:13px;margin-right:8px;vertical-align:middle}.mode.paper{background:#1e2a4a;color:var(--b);border:1px solid var(--b)}.mode.real{background:#3a1420;color:#ff8a8a;border:1px solid var(--r);animation:pl 1.6s infinite}
-.dep{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}.dep img{width:170px;height:170px;background:#fff;border-radius:10px;padding:6px}
+.dep{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}.dep img{width:170px;height:170px;background:#fff;border-radius:10px;padding:6px;flex:0 0 auto}
 .addr{font:13px var(--mono);direction:ltr;word-break:break-all;background:#05070f;border:1px solid #1a2040;border-radius:8px;padding:8px;margin:6px 0}
-.btn{display:inline-block;border:1px solid var(--v);color:var(--t);background:#1b1640;border-radius:8px;padding:6px 12px;font:600 13px var(--sans);cursor:pointer;margin:4px 0 4px 6px}.btn:hover{background:#2a2160}
+.btn{display:inline-block;border:1px solid var(--v);color:var(--t);background:#1b1640;border-radius:8px;padding:8px 12px;font:600 13px var(--sans);cursor:pointer;margin:4px 0 4px 6px;min-height:40px;line-height:22px}.btn:hover{background:#2a2160}
 .warn{color:var(--y);font-size:12px}
 .note{font-size:12px;color:var(--m);padding:0 16px 16px}
 svg{width:100%;height:120px}
-</style></head><body>
+.tabs{display:flex;gap:8px;padding:10px 16px;position:sticky;top:0;z-index:8;background:var(--win);border-bottom:1px solid var(--line)}
+.tabbtn{flex:1;appearance:none;-webkit-appearance:none;border:1px solid var(--line);background:#0e1330;color:var(--t);border-radius:12px;padding:12px 10px;font:700 17px var(--sans);cursor:pointer;min-height:48px}
+.tabbtn[aria-selected="true"]{background:#1b1640}
+#tab-live[aria-selected="true"]{border-color:var(--r);color:#ff8a8a;background:#3a1420;box-shadow:inset 0 -3px 0 var(--r)}
+#tab-paper[aria-selected="true"]{border-color:var(--b);color:var(--b);background:#1e2a4a;box-shadow:inset 0 -3px 0 var(--b)}
+.pane{display:none}.pane.on{display:block}
+.haltban{display:none;background:#3a1420;color:#ff8a8a;text-align:center;padding:8px 12px;font-size:13px;border-bottom:1px solid var(--r)}.haltban.on{display:block}
+@media (max-width:520px){
+  .ttl h1{font-size:20px}
+  .big{font-size:28px}
+  .hdr{padding:12px 16px;gap:8px}
+  .bal{min-width:0;width:100%;text-align:right}
+  .dep img{width:140px;height:140px;margin-inline:auto}
+  .win{margin:0;border-radius:0;border-left:0;border-right:0}
+}
+</style>
+<script>document.documentElement.dataset.tab=(location.hash==='#paper'?'paper':'live');</script>
+</head><body>
 <div class="win">
   <div class="snapb" id="snapb">👁 عرض فقط — ما أحد يقدر يتحكم بالبوت من هنا</div>
   <div class="hdr">
@@ -44,80 +62,178 @@ svg{width:100%;height:120px}
       <div><span class="dot" id="dot"></span><span id="stxt">الحالة: —</span> · مدة التشغيل <span class="n" id="upt">—</span><span class="livetag" id="livetag"><i></i>مباشر LIVE</span></div>
       <div class="sub">العملات من متداولين فومو <span class="n">fomo.family</span> (على السلسلة) · <span class="n" id="clock"></span> بتوقيت الرياض · <span id="upd">آخر تحديث —</span></div>
     </div>
-    <div class="bal"><div class="big" id="bal">—</div><div class="sub" id="balsub">الرصيد · البداية $50 · تجريبي</div><div class="sub" id="wl"></div></div>
   </div>
-  <div class="grid">
-    <div class="card wide" id="addfunds"><h3>إضافة مبلغ <small>إيداع SOL على شبكة سولانا</small></h3>
-      <div class="dep">
-        <img src="deposit-qr.svg" alt="QR عنوان الإيداع" width="170" height="170">
-        <div style="flex:1;min-width:240px">
-          <div class="mut" style="font-size:13px">أرسل <b>SOL</b> فقط على شبكة <b>سولانا</b> لهذا العنوان (محفظة البوت):</div>
-          <div class="addr" id="addr">EpLZbDbBMBwkwrGNkCppc1DAPpcz3AQ3EpAZFVsVD9Bv</div>
-          <button class="btn" id="copy" type="button">نسخ العنوان</button><a class="btn" id="paylink" href="solana:EpLZbDbBMBwkwrGNkCppc1DAPpcz3AQ3EpAZFVsVD9Bv">فتح في فانتوم / محفظة سولانا</a><a class="btn" target="_blank" rel="noopener" href="https://solscan.io/account/EpLZbDbBMBwkwrGNkCppc1DAPpcz3AQ3EpAZFVsVD9Bv">العنوان على Solscan</a>
-          <div class="warn">⚠️ لا ترسل عملات من شبكة ثانية (ERC20 / BSC). حط مبلغ تتحمل تخسره كله. الإيداع ينحسب تلقائيًا خلال دقيقة تقريبًا.</div>
-        </div>
-        <div style="flex:1;min-width:240px" id="livebox"></div>
-      </div>
-      <div id="deps" style="margin-top:8px"></div>
+  <div class="tabs" role="tablist" aria-label="نوع الحساب">
+    <button type="button" class="tabbtn" id="tab-live" role="tab" aria-controls="pane-live" aria-selected="true">حقيقي</button>
+    <button type="button" class="tabbtn" id="tab-paper" role="tab" aria-controls="pane-paper" aria-selected="false">تجريبي</button>
+  </div>
+
+  <div id="pane-live" class="pane on" role="tabpanel" aria-labelledby="tab-live">
+    <div class="haltban" id="haltban"></div>
+    <div class="hdr">
+      <div class="ttl"><h1 style="font-size:18px">الحساب <span>الحقيقي</span></h1><div class="sub">رصيد المحفظة على شبكة سولانا · الأسعار من DexScreener</div></div>
+      <div class="bal"><div class="big" id="lbal">—</div><div class="sub" id="lbalsub">الرصيد الحقيقي</div><div class="sub" id="lwl"></div></div>
     </div>
-    <div class="card wide" id="livetrades"></div>
-    <div class="card"><h3>القواعد <small>من المنشور</small></h3><ul class="rules" id="rules"></ul></div>
-    <div class="card"><h3>مصدر العملات: فومو <small id="srcok"></small></h3><div id="src"></div></div>
-    <div class="card"><h3>منحنى الرصيد <small id="eqr"></small></h3><svg id="eq" viewBox="0 0 300 120" preserveAspectRatio="none"></svg></div>
-    <div class="card wide"><h3>الصفقات المفتوحة <small id="opn"></small></h3><table><thead><tr><th>العملة</th><th>التكلفة</th><th>القيمة الحين</th><th>الدخول</th><th>السعر الحين</th><th>الربح/الخسارة</th><th>الوقف</th><th>ليش دخل</th></tr></thead><tbody id="pos"></tbody></table></div>
-    <div class="card wide"><h3>الصفقات المقفلة <small id="cls"></small></h3><table><thead><tr><th>الوقت</th><th>العملة</th><th>السبب</th><th>النتيجة</th><th>بالدولار</th></tr></thead><tbody id="hist"></tbody></table></div>
-    <div class="card wide"><h3>سجل البوت <small class="n">tail -f compounder.log</small></h3><div class="tail" id="tail"></div></div>
-    <div class="card wide" id="retired"></div>
+    <div class="grid">
+      <div class="card wide" id="addfunds"><h3>إضافة مبلغ <small>إيداع SOL على شبكة سولانا</small></h3>
+        <div class="dep">
+          <img src="deposit-qr.svg" alt="QR عنوان الإيداع" width="170" height="170">
+          <div style="flex:1;min-width:240px">
+            <div class="mut" style="font-size:13px">أرسل <b>SOL</b> فقط على شبكة <b>سولانا</b> لهذا العنوان (محفظة البوت):</div>
+            <div class="addr" id="addr">EpLZbDbBMBwkwrGNkCppc1DAPpcz3AQ3EpAZFVsVD9Bv</div>
+            <button class="btn" id="copy" type="button">نسخ العنوان</button><a class="btn" id="paylink" href="solana:EpLZbDbBMBwkwrGNkCppc1DAPpcz3AQ3EpAZFVsVD9Bv">فتح في فانتوم / محفظة سولانا</a><a class="btn" id="walletscan" target="_blank" rel="noopener" href="https://solscan.io/account/EpLZbDbBMBwkwrGNkCppc1DAPpcz3AQ3EpAZFVsVD9Bv">العنوان على Solscan</a>
+            <div class="warn">⚠️ لا ترسل عملات من شبكة ثانية (ERC20 / BSC). حط مبلغ تتحمل تخسره كله. الإيداع ينحسب تلقائيًا خلال دقيقة تقريبًا.</div>
+          </div>
+          <div style="flex:1;min-width:240px" id="livebox"></div>
+        </div>
+        <div id="deps" style="margin-top:8px"></div>
+      </div>
+      <div class="card wide"><h3>الصفقات المفتوحة <small id="lopn"></small></h3>
+        <div class="scroll"><table><thead><tr><th>العملة</th><th>التكلفة</th><th>القيمة الحين</th><th>الدخول</th><th>السعر الحين</th><th>الربح/الخسارة</th><th>الوقف</th><th>المعاملة</th></tr></thead><tbody id="lpos"></tbody></table></div>
+      </div>
+      <div class="card wide"><h3>الصفقات المقفلة <small id="lcls"></small></h3>
+        <div class="scroll"><table><thead><tr><th>الوقت</th><th>العملة</th><th>السبب</th><th>النتيجة</th><th>المعاملات</th></tr></thead><tbody id="lhist"></tbody></table></div>
+      </div>
+    </div>
+    <div class="note">هذا التبويب للحساب الحقيقي فقط: الرصيد من شبكة سولانا، والصفقات المنفذة على Jupiter، وروابط Solscan. الصفحة تقرأ <span class="n">data.json</span> كل 10 ثواني وأسعار الصفقات المفتوحة من DexScreener كل 5 ثواني. ما أحد يقدر يعدّل شي أو يوقف البوت من هنا.</div>
   </div>
-  <div class="note">كل الأرقام من بيانات حقيقية (سجل معاملات فومو على سولانا، DexScreener، RugCheck)، والرصيد التجريبي افتراضي. قسم «إضافة مبلغ» يقرأ رصيد المحفظة الحقيقي من شبكة سولانا. الصفحة تقرأ <span class="n">data.json</span> كل 10 ثواني وأسعار الصفقات المفتوحة من DexScreener كل 5 ثواني. ما أحد يقدر يعدّل شي من هنا.</div>
+
+  <div id="pane-paper" class="pane" role="tabpanel" aria-labelledby="tab-paper">
+    <div class="hdr">
+      <div class="ttl"><h1 style="font-size:18px">الحساب <span style="color:var(--b)">التجريبي</span></h1><div class="sub">رصيد افتراضي — ما فيه فلوس حقيقية</div></div>
+      <div class="bal"><div class="big" id="bal">—</div><div class="sub" id="balsub">الرصيد · البداية $50 · تجريبي</div><div class="sub" id="wl"></div></div>
+    </div>
+    <div class="grid">
+      <div class="card"><h3>القواعد <small>من المنشور</small></h3><ul class="rules" id="rules"></ul></div>
+      <div class="card"><h3>مصدر العملات: فومو <small id="srcok"></small></h3><div id="src"></div></div>
+      <div class="card"><h3>منحنى الرصيد <small id="eqr"></small></h3><svg id="eq" viewBox="0 0 300 120" preserveAspectRatio="none"></svg></div>
+      <div class="card wide"><h3>الصفقات المفتوحة <small id="opn"></small></h3>
+        <div class="scroll"><table><thead><tr><th>العملة</th><th>التكلفة</th><th>القيمة الحين</th><th>الدخول</th><th>السعر الحين</th><th>الربح/الخسارة</th><th>الوقف</th><th>ليش دخل</th></tr></thead><tbody id="pos"></tbody></table></div>
+      </div>
+      <div class="card wide"><h3>الصفقات المقفلة <small id="cls"></small></h3>
+        <div class="scroll"><table><thead><tr><th>الوقت</th><th>العملة</th><th>السبب</th><th>النتيجة</th><th>بالدولار</th></tr></thead><tbody id="hist"></tbody></table></div>
+      </div>
+      <div class="card wide"><h3>سجل البوت <small class="n">tail -f compounder.log</small></h3><div class="tail" id="tail"></div></div>
+      <div class="card wide" id="retired"></div>
+    </div>
+    <div class="note">كل الأرقام هنا تجريبية من بيانات حقيقية (سجل معاملات فومو على سولانا، DexScreener، RugCheck)، والرصيد افتراضي ما يمس محفظتك. الصفحة تقرأ <span class="n">data.json</span> كل 10 ثواني وأسعار الصفقات المفتوحة من DexScreener كل 5 ثواني. ما أحد يقدر يعدّل شي من هنا.</div>
+  </div>
 </div>
 <script>
 const $=id=>document.getElementById(id), KSA={timeZone:'Asia/Riyadh'};
 const usd=(n,d=2)=>(n<0?'-':'')+'$'+Math.abs(+n||0).toFixed(d), sg=n=>(n>=0?'+':'')+(+n||0).toFixed(2)+'%';
 const px=n=>n?'$'+(+n).toPrecision(4):'—', hm=t=>t?new Date(t).toLocaleTimeString('en-GB',{...KSA,hour:'2-digit',minute:'2-digit'}):'—';
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const SOLSCAN='https://solscan.io/tx/', sol=(n,d=4)=>(+n||0).toFixed(d)+' SOL', dt=t=>t?new Date(t).toLocaleString('en-GB',{...KSA,day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
 let D=null, live={}, lastFetch=0;
+
+function currentTab(){const h=(location.hash||'#live').replace(/^#/,'').toLowerCase();return h==='paper'?'paper':'live'}
+function applyTab(){
+  const t=currentTab();
+  document.documentElement.dataset.tab=t;
+  $('pane-live').className='pane'+(t==='live'?' on':'');
+  $('pane-paper').className='pane'+(t==='paper'?' on':'');
+  $('tab-live').setAttribute('aria-selected', t==='live'?'true':'false');
+  $('tab-paper').setAttribute('aria-selected', t==='paper'?'true':'false');
+}
+function seedPrices(){
+  if(!D) return;
+  for(const p of D.positions||[]) if(p.mint) live[p.mint]=live[p.mint]||p.lastPrice;
+  for(const p of (D.live&&D.live.positions)||[]) if(p.mint) live[p.mint]=live[p.mint]||p.lastPrice;
+}
+function allMints(){
+  const s=new Set();
+  if(!D) return [];
+  for(const p of D.positions||[]) if(p.mint) s.add(p.mint);
+  for(const p of (D.live&&D.live.positions)||[]) if(p.mint) s.add(p.mint);
+  return [...s];
+}
+
 function render(){
-  if(!D) return; const s=D.settings, st=D.stats||{};
-  const pos=D.positions.map(p=>{const lp=live[p.mint]||p.lastPrice;return {...p,lp,val:p.qty*lp,pp:(lp/p.entryPrice-1)*100};});
+  if(!D) return;
+  const s=D.settings, st=D.stats||{};
+  const hbAge=(Date.now()-(D.heartbeatAt||0))/1000, up=hbAge<180;
+  $('dot').className='dot'+(up?'':' off'); $('stxt').textContent=up?'الحالة: شغّال':'الحالة: متوقف/ما فيه نبض';
+  $('livetag').className='livetag'+(up?'':' off');
+  renderLive();
+  renderPaper(s, st);
+}
+
+function renderPaper(s, st){
+  const pos=(D.positions||[]).map(p=>{const lp=live[p.mint]||p.lastPrice;return {...p,lp,val:(p.qty||0)*lp,pp:p.entryPrice?(lp/p.entryPrice-1)*100:0};});
   const eq=D.balance+pos.reduce((a,p)=>a+p.val,0), pnl=eq-D.startBalanceUsd;
   $('bal').textContent=usd(eq); $('bal').className='big '+(pnl>=0?'ok':'bad');
   $('balsub').innerHTML=`الكاش <span class="n">${usd(D.balance)}</span> · البداية <span class="n">${usd(D.startBalanceUsd)}</span> · <span class="n ${pnl>=0?'ok':'bad'}">${usd(pnl)} (${sg(pnl/D.startBalanceUsd*100)})</span>`;
   const n=(st.wins||0)+(st.losses||0); $('wl').innerHTML=`${n} صفقة مقفلة · <span class="ok">${st.wins||0} ربح</span> · <span class="bad">${st.losses||0} خسارة</span> · بيع النص عند الضعفين: ${st.halfTaken||0}`;
-  const hbAge=(Date.now()-(D.heartbeatAt||0))/1000, up=hbAge<180;
-  $('dot').className='dot'+(up?'':' off'); $('stxt').textContent=up?'الحالة: شغّال':'الحالة: متوقف/ما فيه نبض';
-  $('livetag').className='livetag'+(up?'':' off');
   $('rules').innerHTML=[`كل شراء = <b class="n">${s.pctCash}%</b> من الكاش المتاح (يتراكم مع الأرباح)`,`أقصى <b class="n">${s.maxOpen}</b> صفقات مفتوحة`,`عند <b class="n">2x</b>: يبيع النص، والباقي بوقف متحرك <b class="n">${s.trailPct}%</b> من القمة`,`إذا ما وصل 2x: وقف خسارة <b class="n">-${s.stopPct}%</b>`,`بدون تعزيز على الخاسر · بدون رافعة · بدون إيداع`,`الأمان: mint/freeze ملغية · LP مقفل ≥<span class="n">${s.minLpLockedPct}%</span> · أكبر 10 ≤<span class="n">${s.maxTop10Pct}%</span> · سيولة ≥<span class="n">$${s.minLiquidityUsd/1000}k</span> · قيمة ≥<span class="n">$${s.minMcapUsd/1000}k</span> · صعود ساعة ≤<span class="n">${s.maxPump1hPct}%</span>`].map(x=>'<li>'+x+'</li>').join('');
   const S=D.source||{}; $('srcok').innerHTML=S.lastOkAt?'آخر قراءة <span class="n">'+hm(S.lastOkAt)+'</span>':'';
   $('src').innerHTML=[['الإشارة',`<span class="n">${s.minBuyers}+</span> محافظ فومو شرت نفس العملة خلال <span class="n">${s.windowMin}</span> دقيقة`],['معاملات فومو المفحوصة',S.txFetched],['شراء / بيع',`${S.buys} / ${S.sells}`],['محافظ فومو (آخر 3 ساعات)',S.wallets],['إشارات',S.signals],['رفضها الأمان',S.killed],['صفقات فتحها',S.opened]].map(([k,v],i)=>`<div class="kv"><span>${k}</span><span${i?' class="n"':' style="font-size:12px;text-align:left"'}>${v}</span></div>`).join('');
   $('opn').textContent=`${pos.length}/${s.maxOpen}`;
-  $('pos').innerHTML=pos.length?pos.map(p=>`<tr><td><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.sym)}</a></td><td class="n">${usd(p.costUsd)}</td><td class="n">${usd(p.val)}</td><td class="n">${px(p.entryPrice)}</td><td class="n">${px(p.lp)}</td><td class="n ${p.pp>=0?'ok':'bad'}">${sg(p.pp)}</td><td class="n">${px(p.stopPrice)}${p.halfTaken?' ↟':''}</td><td style="font-size:11.5px" class="mut">${esc(p.why)}${p.halfTaken?' · باع النص عند 2x':''}</td></tr>`).join(''):'<tr><td colspan="8" class="mut">ما فيه صفقات مفتوحة الحين</td></tr>';
-  $('cls').textContent=D.history.length;
-  $('hist').innerHTML=D.history.length?D.history.map(h=>`<tr><td class="n">${hm(h.closedAt)}</td><td><a href="${esc(h.url)}" target="_blank" rel="noopener">${esc(h.sym)}</a></td><td class="n">${esc(h.reason)}${h.halfTaken?' · ½@2x':''}</td><td class="n ${h.pnlPct>=0?'ok':'bad'}">${sg(h.pnlPct)}</td><td class="n ${h.pnlUsd>=0?'ok':'bad'}">${usd(h.pnlUsd)}</td></tr>`).join(''):'<tr><td colspan="5" class="mut">ما قفل صفقات للحين</td></tr>';
+  $('pos').innerHTML=pos.length?pos.map(p=>`<tr><td><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.sym)}</a></td><td class="n">${usd(p.costUsd)}</td><td class="n">${usd(p.val)}</td><td class="n">${px(p.entryPrice)}</td><td class="n">${px(p.lp)}</td><td class="n ${p.pp>=0?'ok':'bad'}">${sg(p.pp)}</td><td class="n">${px(p.stopPrice)}${p.halfTaken?' ↟':''}</td><td style="font-size:11.5px;white-space:normal" class="mut">${esc(p.why)}${p.halfTaken?' · باع النص عند 2x':''}</td></tr>`).join(''):'<tr><td colspan="8" class="mut">ما فيه صفقات مفتوحة الحين</td></tr>';
+  $('cls').textContent=(D.history||[]).length;
+  $('hist').innerHTML=(D.history||[]).length?D.history.map(h=>`<tr><td class="n">${hm(h.closedAt)}</td><td><a href="${esc(h.url)}" target="_blank" rel="noopener">${esc(h.sym)}</a></td><td class="n">${esc(h.reason)}${h.halfTaken?' · ½@2x':''}</td><td class="n ${h.pnlPct>=0?'ok':'bad'}">${sg(h.pnlPct)}</td><td class="n ${h.pnlUsd>=0?'ok':'bad'}">${usd(h.pnlUsd)}</td></tr>`).join(''):'<tr><td colspan="5" class="mut">ما قفل صفقات للحين</td></tr>';
   const ec=(D.equityCurve||[]).map(x=>x.e); if(ec.length>1){const mn=Math.min(...ec,D.startBalanceUsd),mx=Math.max(...ec,D.startBalanceUsd),r=(mx-mn)||1;const pts=ec.map((e,i)=>`${(i/(ec.length-1)*300).toFixed(1)},${(115-(e-mn)/r*110).toFixed(1)}`).join(' ');const by=(115-(D.startBalanceUsd-mn)/r*110).toFixed(1);$('eq').innerHTML=`<line x1="0" x2="300" y1="${by}" y2="${by}" stroke="#7c84a6" stroke-dasharray="3 3" stroke-width=".6"/><polyline fill="none" stroke="${ec[ec.length-1]>=D.startBalanceUsd?'#4ade80':'#f87171'}" stroke-width="1.6" points="${pts}"/>`;$('eqr').innerHTML=`<span class="n">${usd(mn)} – ${usd(mx)}</span>`;}
   const tl=$('tail'), atBottom=tl.scrollTop+tl.clientHeight>=tl.scrollHeight-20;
   tl.innerHTML=(D.log||[]).map(l=>`<div><span class="mut">${l.t?new Date(l.t).toLocaleTimeString('en-GB',KSA):''}</span> <span class="tg t-${esc(l.tag)}">${esc(l.tag)}</span> ${esc(l.msg)}</div>`).join(''); if(atBottom) tl.scrollTop=tl.scrollHeight;
-  renderLive();
   const R=D.retiredSniper; $('retired').innerHTML=R?`<h3>البوتات القديمة <small>أُوقفت 18/11/2026</small></h3><div class="mut" style="font-size:13px">بوت القنص القديم وبوتين باينانس (turtle_4h وdonchian_1d) انوقفوا بطلبك. آخر رصيد لحساب القنص القديم بسعر السوق: <span class="n">${usd(R.equity)}</span> (<span class="n ${R.pnlUsd>=0?'ok':'bad'}">${usd(R.pnlUsd)}</span>) · ${R.wins} ربح / ${R.losses} خسارة${R.openSym?` · كان فيه صفقة مفتوحة ${esc(R.openSym)} <span class="n">${sg(R.openPnlPct)}</span> وقت الإيقاف`:''}. بياناتهم محفوظة نسخة احتياطية.</div>`:'';
 }
-const SOLSCAN='https://solscan.io/tx/', sol=(n,d=4)=>(+n||0).toFixed(d)+' SOL', dt=t=>t?new Date(t).toLocaleString('en-GB',{...KSA,day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
+
 function renderLive(){
-  const L=D.live; if(!L) return; const real=!!L.armed;
-  $('mode').className='mode '+(real?'real':'paper'); $('mode').textContent=real?'حقيقي':'تجريبي';
+  const L=D.live||{}; const real=!!L.armed; const ls=L.settings||{};
+  $('mode').className='mode '+(real?'real':'paper'); $('mode').textContent=real?'حقيقي':'التداول الحقيقي مطفي';
   $('snapb').textContent=real?'🔴 تداول حقيقي مفعّل — أموال حقيقية · 👁 الصفحة عرض فقط':'👁 عرض فقط — الوضع تجريبي (التداول الحقيقي غير مفعّل) · ما أحد يقدر يتحكم بالبوت من هنا';
-  const bal=L.balanceSol==null?'—':sol(L.balanceSol), bu=L.balanceUsd!=null?' ≈ '+usd(L.balanceUsd):'';
-  $('livebox').innerHTML=[['الوضع',real?'<b class="bad">حقيقي — يشتري بفلوس حقيقية</b>':'<b style="color:var(--b)">تجريبي — ما يشتري بفلوس حقيقية</b>'],['رصيد المحفظة الحين (على السلسلة)',`<span class="n">${bal}${bu}</span>`],['آخر قراءة للرصيد',`<span class="n">${hm(L.balanceAt)}</span>`],['مجموع الإيداعات',`<span class="n">${sol(L.depositSol)}${L.depositUsd?' ≈ '+usd(L.depositUsd):''}</span>`],['الربح/الخسارة الحقيقي',L.depositSol?`<span class="n ${L.pnlSol>=0?'ok':'bad'}">${(L.pnlSol>=0?'+':'')+sol(L.pnlSol)} (${sg(L.pnlPct)})</span>`:'<span class="mut">— (ما فيه إيداع)</span>'],['قاطع الحماية',L.halted?`<span class="bad">موقف الشراء: ${esc(L.haltReason)}</span>`:`<span class="mut">يوقف الشراء إذا نزل الرصيد ${L.settings.breakerPct}% تحت الإيداعات</span>`]].map(([k,v])=>`<div class="kv"><span>${k}</span><span>${v}</span></div>`).join('');
-  $('deps').innerHTML='<div class="mut" style="font-size:13px;margin-bottom:4px">الإيداعات المكتشفة</div>'+(L.deposits.length?'<table><thead><tr><th>الوقت</th><th>المبلغ</th><th>من</th><th>المعاملة</th></tr></thead><tbody>'+L.deposits.map(d=>`<tr><td class="n">${dt(d.t)}</td><td class="n ok">+${sol(d.sol)}${d.usd?' ≈ '+usd(d.usd):''}</td><td class="n">${esc(d.from)}</td><td><a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(d.sig)}">${esc(d.sig.slice(0,10))}…</a></td></tr>`).join('')+'</tbody></table>':'<div class="mut">ما وصل أي إيداع للحين.</div>');
-  const ps=L.positions||[], hs=L.history||[];
-  $('livetrades').innerHTML=`<h3>صفقات الحساب الحقيقي <small>${ps.length}/${L.settings.maxOpen} مفتوحة · ${hs.length} مقفلة</small></h3>`+
-   ((ps.length||hs.length)?'<table><thead><tr><th>العملة</th><th>التكلفة</th><th>الحالة</th><th>النتيجة</th><th>المعاملات</th></tr></thead><tbody>'+
-   ps.map(p=>`<tr><td><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.sym)}</a></td><td class="n">${sol(p.costSol)}</td><td>مفتوحة${p.halfTaken?' · ½@2x':''}</td><td class="n ${p.pnlPct>=0?'ok':'bad'}">${sg(p.pnlPct)}</td><td><a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(p.buySig)}">شراء</a></td></tr>`).join('')+
-   hs.map(h=>`<tr><td><a href="${esc(h.url)}" target="_blank" rel="noopener">${esc(h.sym)}</a></td><td class="n">${sol(h.costSol)}</td><td class="n">${esc(h.reason)} · ${hm(h.closedAt)}</td><td class="n ${h.pnlSol>=0?'ok':'bad'}">${(h.pnlSol>=0?'+':'')+sol(h.pnlSol)} (${sg(h.pnlPct)})</td><td><a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(h.buySig)}">شراء</a> ${(h.sells||[]).map(x=>`<a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(x)}">بيع</a>`).join(' ')}</td></tr>`).join('')+'</tbody></table>'
-   :`<div class="mut">${real?'مفعّل وينتظر إشارة من فومو.':'ما فيه صفقات حقيقية — الوضع تجريبي، وكل الصفقات تحت تجريبية.'}</div>`);
+  if(L.address){
+    $('addr').textContent=L.address;
+    $('paylink').href='solana:'+L.address;
+    $('walletscan').href='https://solscan.io/account/'+L.address;
+  }
+  const pos=(L.positions||[]).map(p=>{
+    const lp=live[p.mint]||p.lastPrice||0;
+    const val=(p.qtyUi||0)*lp;
+    const pp=p.entryPrice?(lp/p.entryPrice-1)*100:(p.pnlPct||0);
+    return {...p,lp,val,pp};
+  });
+  const cashUsd=L.balanceUsd!=null?L.balanceUsd:((L.balanceSol||0)*(L.solUsd||0));
+  const eqUsd=cashUsd+pos.reduce((a,p)=>a+p.val,0);
+  const eqSol=(L.solUsd?eqUsd/L.solUsd:(L.equitySol||0));
+  const depUsd=L.depositUsd||0, pnlUsd=eqUsd-depUsd;
+  const pnlPct=depUsd?pnlUsd/depUsd*100:(L.pnlPct||0);
+  $('lbal').textContent=depUsd||eqUsd?usd(eqUsd):'—';
+  $('lbal').className='big '+(pnlUsd>=0?'ok':'bad');
+  const cashSol=L.balanceSol==null?'—':sol(L.balanceSol);
+  const cashU=L.balanceUsd!=null?' ≈ '+usd(L.balanceUsd):'';
+  $('lbalsub').innerHTML=`إجمالي <span class="n">${sol(eqSol,4)}</span> · الكاش <span class="n">${cashSol}${cashU}</span><br>الإيداع <span class="n">${sol(L.depositSol||0)}${depUsd?' ≈ '+usd(depUsd):''}</span> · الربح/الخسارة <span class="n ${pnlUsd>=0?'ok':'bad'}">${usd(pnlUsd)} (${sg(pnlPct)})</span>`;
+  const hs=L.history||[], st=L.stats||{};
+  $('lwl').innerHTML=`${pos.length} مفتوحة · ${hs.length} مقفلة · مشتريات <span class="n">${st.buys||0}</span> · مبيعات <span class="n">${st.sells||0}</span>${st.failedTx?` · فشل تنفيذ <span class="bad n">${st.failedTx}</span>`:''}`;
+  const hb=$('haltban');
+  if(L.halted){hb.className='haltban on'; hb.textContent='قاطع الحماية موقف الشراء'+(L.haltReason?': '+L.haltReason:'');}
+  else {hb.className='haltban'; hb.textContent='';}
+  $('livebox').innerHTML=[
+    ['الوضع',real?'<b class="bad">حقيقي — يشتري بفلوس حقيقية</b>':'<b style="color:var(--b)">التداول الحقيقي مطفي</b>'],
+    ['رصيد المحفظة الحين (على السلسلة)',`<span class="n">${cashSol}${cashU}</span>`],
+    ['إجمالي الرصيد (كاش + الصفقات)',`<span class="n">${usd(eqUsd)} · ${sol(eqSol,4)}</span>`],
+    ['آخر قراءة للرصيد',`<span class="n">${hm(L.balanceAt)}</span>`],
+    ['مجموع الإيداعات',`<span class="n">${sol(L.depositSol||0)}${depUsd?' ≈ '+usd(depUsd):''}</span>`],
+    ['الربح/الخسارة الحقيقي',L.depositSol?`<span class="n ${pnlUsd>=0?'ok':'bad'}">${usd(pnlUsd)} · ${(L.pnlSol>=0?'+':'')+sol(L.pnlSol||(L.solUsd?pnlUsd/L.solUsd:0))} (${sg(pnlPct)})</span>`:'<span class="mut">— (ما فيه إيداع)</span>'],
+    ['قاطع الحماية',L.halted?`<span class="bad">موقف الشراء: ${esc(L.haltReason)}</span>`:`<span class="mut">يوقف الشراء إذا نزل الرصيد ${ls.breakerPct||50}% تحت الإيداعات</span>`]
+  ].map(([k,v])=>`<div class="kv"><span>${k}</span><span>${v}</span></div>`).join('');
+  $('deps').innerHTML='<div class="mut" style="font-size:13px;margin-bottom:4px">الإيداعات المكتشفة</div>'+((L.deposits||[]).length?'<div class="scroll"><table><thead><tr><th>الوقت</th><th>المبلغ</th><th>من</th><th>المعاملة</th></tr></thead><tbody>'+L.deposits.map(d=>`<tr><td class="n">${dt(d.t)}</td><td class="n ok">+${sol(d.sol)}${d.usd?' ≈ '+usd(d.usd):''}</td><td class="n">${esc(d.from)}</td><td><a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(d.sig)}">${esc((d.sig||'').slice(0,10))}…</a></td></tr>`).join('')+'</tbody></table></div>':'<div class="mut">ما وصل أي إيداع للحين.</div>');
+  $('lopn').textContent=`${pos.length}/${ls.maxOpen||2}`;
+  $('lpos').innerHTML=pos.length?pos.map(p=>`<tr><td><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.sym)}</a></td><td class="n">${sol(p.costSol)}${p.costUsd?' · '+usd(p.costUsd):''}</td><td class="n">${usd(p.val)}</td><td class="n">${px(p.entryPrice)}</td><td class="n">${px(p.lp)}</td><td class="n ${p.pp>=0?'ok':'bad'}">${sg(p.pp)}</td><td class="n">${px(p.stopPrice)}${p.halfTaken?' ↟':''}</td><td>${p.buySig?`<a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(p.buySig)}">شراء</a>`:'—'}</td></tr>`).join(''):`<tr><td colspan="8" class="mut">${real?'مفعّل وينتظر إشارة من فومو.':'ما فيه صفقات حقيقية مفتوحة.'}</td></tr>`;
+  $('lcls').textContent=hs.length;
+  $('lhist').innerHTML=hs.length?hs.map(h=>`<tr><td class="n">${dt(h.closedAt)}</td><td><a href="${esc(h.url)}" target="_blank" rel="noopener">${esc(h.sym)}</a></td><td class="n">${esc(h.reason)}${h.halfTaken?' · ½@2x':''}</td><td class="n ${(h.pnlSol||h.pnlPct)>=0?'ok':'bad'}">${(h.pnlSol>=0?'+':'')+sol(h.pnlSol||0)} (${sg(h.pnlPct)})</td><td>${h.buySig?`<a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(h.buySig)}">شراء</a>`:''} ${(h.sells||[]).map(x=>`<a class="n" target="_blank" rel="noopener" href="${SOLSCAN+esc(x)}">بيع</a>`).join(' ')}</td></tr>`).join(''):'<tr><td colspan="5" class="mut">ما قفل صفقات حقيقية للحين</td></tr>';
 }
-document.addEventListener('click',e=>{if(e.target&&e.target.id==='copy'){const a=$('addr').textContent.trim();const ok=()=>{e.target.textContent='تم النسخ ✓';setTimeout(()=>e.target.textContent='نسخ العنوان',1500)};if(navigator.clipboard)navigator.clipboard.writeText(a).then(ok,()=>{});else{const r=document.createRange();r.selectNodeContents($('addr'));getSelection().removeAllRanges();getSelection().addRange(r);document.execCommand('copy');ok();}}});
-async function load(){try{const r=await fetch('data.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;D=await r.json();lastFetch=Date.now();for(const p of D.positions)live[p.mint]=live[p.mint]||p.lastPrice;render();}catch(e){}}
-async function prices(){if(!D||!D.positions.length)return;try{const m=D.positions.map(p=>p.mint);const r=await fetch('https://api.dexscreener.com/tokens/v1/solana/'+m.join(','),{cache:'no-store'});const a=await r.json();for(const mint of m){const p=a.filter(x=>x.chainId==='solana'&&x.baseToken?.address===mint).sort((x,y)=>(y.liquidity?.usd||0)-(x.liquidity?.usd||0))[0];if(p)live[mint]=+p.priceUsd;}render();}catch(e){}}
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest && e.target.closest('.tabbtn');
+  if(b){const t=b.id==='tab-paper'?'paper':'live'; if(location.hash!=='#'+t) location.hash=t; else applyTab(); return;}
+  if(e.target&&e.target.id==='copy'){const a=$('addr').textContent.trim();const ok=()=>{e.target.textContent='تم النسخ ✓';setTimeout(()=>e.target.textContent='نسخ العنوان',1500)};if(navigator.clipboard)navigator.clipboard.writeText(a).then(ok,()=>{});else{const r=document.createRange();r.selectNodeContents($('addr'));getSelection().removeAllRanges();getSelection().addRange(r);document.execCommand('copy');ok();}}
+});
+window.addEventListener('hashchange', applyTab);
+applyTab();
+
+async function load(){try{const r=await fetch('data.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;D=await r.json();lastFetch=Date.now();seedPrices();render();}catch(e){}}
+async function prices(){const m=allMints(); if(!m.length)return;try{const r=await fetch('https://api.dexscreener.com/tokens/v1/solana/'+m.join(','),{cache:'no-store'});const a=await r.json();for(const mint of m){const p=a.filter(x=>x.chainId==='solana'&&x.baseToken?.address===mint).sort((x,y)=>(y.liquidity?.usd||0)-(x.liquidity?.usd||0))[0];if(p)live[mint]=+p.priceUsd;}render();}catch(e){}}
 setInterval(()=>{$('clock').textContent=new Date().toLocaleTimeString('en-GB',KSA);if(D){const u=Math.max(0,Math.round((Date.now()-D.startedAt)/1000));$('upt').textContent=[Math.floor(u/3600),Math.floor(u%3600/60),u%60].map(x=>String(x).padStart(2,'0')).join(':');$('upd').textContent='آخر تحديث قبل '+Math.round((Date.now()-D.now)/1000)+' ث';}},1000);
 load();setInterval(load,10000);setInterval(prices,5000);
 </script>
