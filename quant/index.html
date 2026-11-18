@@ -1,204 +1,188 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0a0e1c">
 <meta http-equiv="Cache-Control" content="no-cache">
-<title>Quant Desk · Binance — Grok Bot Terminal (Paper, view only)</title>
+<title>مكتب الكوانت · باينانس — تداول تجريبي (عرض فقط)</title>
 <style>
-:root{--bg:#080b17;--win:#0d1124;--p:#111630;--line:#242b4a;--t:#d7dcf0;--m:#7c84a6;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Tahoma,"Noto Sans Arabic","Segoe UI Arabic",sans-serif;
---scout:#5eead4;--filter:#f472b6;--analyst:#a78bfa;--exec:#4ade80;--risk:#facc15;--log:#60a5fa;--you:#e5e7eb;--g:#4ade80;--r:#f87171}
-*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--t);font:14px/1.45 var(--sans)}
+:root{--bg:#080b17;--win:#0d1124;--p:#111630;--line:#242b4a;--t:#d7dcf0;--m:#7c84a6;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:"Noto Sans Arabic","Segoe UI Arabic",Tahoma,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--scout:#5eead4;--filter:#f472b6;--analyst:#a78bfa;--exec:#4ade80;--risk:#facc15;--log:#60a5fa;--g:#4ade80;--r:#f87171;--t1:#5eead4;--t2:#f5c76b}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--t);font:14px/1.6 var(--sans)}
 a{color:#8ab4ff;text-decoration:none}a:hover{color:#c4d7ff}
-.mono{font-family:var(--mono)}.mut{color:var(--m)}.ok{color:var(--g)}.bad{color:var(--r)}.ar{font-size:10px;color:var(--m)}
-.win{max-width:1180px;margin:10px auto;background:var(--win);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.chrome{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid #1a2040;font:12px var(--mono);color:var(--m)}
+.n{direction:ltr;unicode-bidi:isolate;font-family:var(--mono)}
+.mono{font-family:var(--mono)}.mut{color:var(--m)}.ok{color:var(--g)}.bad{color:var(--r)}.en{font:10px var(--mono);color:var(--m);letter-spacing:1px}
+.win{max-width:1240px;margin:10px auto;background:var(--win);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.chrome{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid #1a2040;font-size:12px;color:var(--m)}
 .chrome i{width:10px;height:10px;border-radius:50%;display:inline-block}.chrome .ttl{flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .navx{color:#8ab4ff;border-bottom:1px dotted #8ab4ff66;margin:0 4px}
 .paperb{border:1px solid var(--risk);color:var(--risk);border-radius:6px;padding:1px 7px;font-weight:700;white-space:nowrap}
-.snapb{background:#2a2306;border-bottom:1px solid var(--risk);color:var(--risk);padding:6px 12px;font-size:12px}
+.snapb{background:#2a2306;border-bottom:1px solid var(--risk);color:var(--risk);padding:6px 12px;font-size:12.5px}
 .hdr{display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:16px 16px 10px}
 .ava{width:78px;height:78px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3d1,#f5c76b 45%,#c98a1a);display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 0 30px #f5c76b55;flex:none}
 .ava b{width:9px;height:22px;background:#2a1c08;border-radius:5px;animation:blink 5s infinite}@keyframes blink{0%,95%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
-.ttlb{flex:1;min-width:230px}.ttlb h1{margin:0;font:600 30px var(--mono);letter-spacing:.5px}.ttlb h1 span{color:#f5c76b}
-.pill{display:inline-block;border-radius:6px;padding:2px 8px;font:12px var(--mono);vertical-align:middle}
-.desk{background:linear-gradient(90deg,#fde68a,#a5f3fc);color:#1b1640;margin-left:8px}
-.inpill{border:1px solid #facc1566;color:var(--risk);margin-left:10px}
-.warnpill{border:1px solid #fb923c;color:#fb923c;margin-left:8px;letter-spacing:1px}
-.run{font:14px var(--mono);margin:6px 0}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);margin-right:6px;animation:pl 1.5s infinite}.dot.off{background:var(--r);box-shadow:0 0 8px var(--r);animation:none}@keyframes pl{50%{opacity:.35}}
-.livetag{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--g);color:var(--g);border-radius:6px;padding:1px 7px;font:11px var(--mono);letter-spacing:1.2px;margin-left:8px;vertical-align:middle}
+.ttlb{flex:1;min-width:230px}.ttlb h1{margin:0;font:700 28px var(--sans)}.ttlb h1 span{color:#f5c76b}
+.pill{display:inline-block;border-radius:6px;padding:2px 8px;font-size:12px;vertical-align:middle}
+.desk{background:linear-gradient(90deg,#fde68a,#a5f3fc);color:#1b1640;margin-right:8px}
+.warnpill{border:1px solid #fb923c;color:#fb923c;margin-right:8px}
+.run{font-size:14px;margin:6px 0}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);margin-left:6px;animation:pl 1.5s infinite}.dot.off{background:var(--r);box-shadow:0 0 8px var(--r);animation:none}@keyframes pl{50%{opacity:.35}}
+.livetag{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--g);color:var(--g);border-radius:6px;padding:0 7px;font-size:11px;margin-right:8px;vertical-align:middle}
 .livetag i{width:7px;height:7px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);animation:pl 1.2s infinite}
 .livetag.off{border-color:var(--r);color:var(--r)}.livetag.off i{background:var(--r);box-shadow:none;animation:none}
-.tag{color:#b8bfdc;font-size:14px}
-.bal{text-align:right;margin-left:auto}.bal .big{font:700 40px var(--mono);color:#fff}.bal .sub{font:11px var(--mono);color:var(--m)}.bal .wl{font:15px var(--mono);margin-top:3px}
-.grid{display:grid;grid-template-columns:270px minmax(0,1fr);gap:12px;padding:0 14px 14px}
+.tag{color:#b8bfdc;font-size:14px}.sub2{font-size:11.5px;color:var(--m)}
+.bal{text-align:left;margin-right:auto}.bal .big{font:700 36px var(--mono);color:#fff;direction:ltr;unicode-bidi:isolate}.bal .sub{font-size:11.5px;color:var(--m)}
+.grid{display:grid;grid-template-columns:260px minmax(0,1fr);gap:12px;padding:0 14px 14px}
 .side{display:flex;flex-direction:column;gap:10px}
 .ag{background:var(--p);border:1px solid var(--line);border-radius:11px;padding:11px 12px}
 .ag.act{border-color:#f5c76b99;box-shadow:0 0 0 1px #f5c76b44}
 .agh{display:flex;align-items:flex-start;gap:9px}.ico{width:28px;height:28px;border-radius:7px;background:#1b2142;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
-.agh .nm{font:600 17px var(--mono)}.agh .rl{font-size:13px;color:#b8bfdc}.agh .bd{margin-left:auto;border:1px solid currentColor;border-radius:5px;font:10px var(--mono);padding:1px 6px;letter-spacing:1px}
-.ag .rule{font-size:13px;font-weight:600;margin:9px 0 10px}.ag .ft{font:11.5px var(--mono);color:var(--m);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.agh .nm{font:700 17px var(--sans)}.agh .nm small{font:10px var(--mono);color:var(--m);margin-right:5px;letter-spacing:1px}.agh .rl{font-size:12.5px;color:#b8bfdc}
+.agh .bd{margin-right:auto;border:1px solid currentColor;border-radius:5px;font-size:10.5px;padding:0 6px;white-space:nowrap}
+.ag .rule{font-size:12.5px;font-weight:600;margin:8px 0}.ag .ft{font-size:11.5px;color:var(--m)}
 .main{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-content:start}
 .pn{background:var(--p);border:1px solid var(--line);border-radius:11px;padding:12px;min-width:0}
-.pn.full{grid-column:1/-1}
-.ph{display:flex;justify-content:space-between;align-items:center;font:11.5px var(--mono);letter-spacing:2px;color:#c9cfe8;margin-bottom:10px;gap:8px;flex-wrap:wrap}.ph .r{letter-spacing:0;color:var(--m)}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:4px 0 2px}
-.metric{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#0f1430}
-.metric .k{font:10px var(--mono);letter-spacing:1.2px;color:var(--m)}.metric .v{font:18px var(--mono);color:#fff;margin-top:2px}.metric .s{font:11px var(--mono);color:var(--m)}
-.split{display:grid;grid-template-columns:1.15fr .85fr;gap:12px}
-.rules{list-style:none;margin:0;padding:0}.rules li{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:13.5px;line-height:1.45}
-.rules li i{width:14px;height:14px;border-radius:50%;background:#2a3157;flex:none;display:flex;align-items:center;justify-content:center;font-size:9px;font-style:normal;margin-top:3px}
-.rules li.ok i{background:#14532d;color:var(--g)}.rules li.warn i{background:#5b3a12;color:var(--risk)}
-.failbox{border:1px solid #7c2d12;background:#1a0e0c;border-radius:8px;padding:10px 12px}
-.failbox h3{margin:0 0 8px;font:700 11px var(--mono);letter-spacing:1.4px;color:#fb923c}
-.failbox li{color:#f3d1c0;font-size:13px;margin:0 0 6px;padding-left:2px}
-.nums{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 14px;margin:8px 0}
-.nums div{display:flex;justify-content:space-between;gap:8px;font:12.5px var(--mono);border-bottom:1px solid #1d2443;padding:4px 0}.nums b{color:#fff;font-weight:600}
+.ph{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:700;color:#c9cfe8;margin-bottom:10px;gap:8px;flex-wrap:wrap}.ph .r{font-weight:400;color:var(--m);font-size:11.5px}
+.accts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.acct{border-top:3px solid var(--t1)}.acct.d{border-top-color:var(--t2)}
+.acct h2{margin:0;font:700 17px var(--sans)}.acct h2 .n{color:var(--t1)}.acct.d h2 .n{color:var(--t2)}
+.astat{font-size:12px;margin:2px 0 8px}
+.abig{font:700 30px var(--mono);color:#fff;direction:ltr;unicode-bidi:isolate;display:inline-block}
+.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:8px 0}
+.metric{border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:#0f1430}
+.metric .k{font-size:11px;color:var(--m)}.metric .v{font:17px var(--mono);color:#fff;margin-top:1px}.metric .s{font-size:11px;color:var(--m)}
+.sec{font-size:12px;font-weight:700;color:#c9cfe8;margin:12px 0 6px;border-bottom:1px solid #1d2443;padding-bottom:4px;display:flex;justify-content:space-between;gap:6px}.sec .r{font-weight:400;color:var(--m);font-size:11px}
+.rules{list-style:none;margin:0;padding:0}.rules li{display:flex;align-items:flex-start;gap:8px;padding:4px 0;font-size:13px;line-height:1.6}
+.rules li i{width:15px;height:15px;border-radius:50%;background:#14532d;color:var(--g);flex:none;display:flex;align-items:center;justify-content:center;font-size:9px;font-style:normal;margin-top:4px}
+.failbox{border:1px solid #7c2d12;background:#1a0e0c;border-radius:8px;padding:9px 12px;margin-top:8px}
+.failbox h3{margin:0 0 6px;font-size:12px;color:#fb923c}
+.failbox ul{margin:0;padding-right:18px;padding-left:0}.failbox li{color:#f3d1c0;font-size:12.5px;margin:0 0 5px}
+.nums{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 14px;margin:6px 0}
+.nums div{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;border-bottom:1px solid #1d2443;padding:3px 0}.nums b{color:#fff;font:600 12.5px var(--mono);direction:ltr;unicode-bidi:isolate}
+.bfil{font-size:12px;border:1px dashed #3b4470;border-radius:8px;padding:6px 9px;margin:6px 0;color:#c9cfe8}
 .tblwrap{overflow:auto}
-table.tbl{width:100%;border-collapse:collapse;font:12px var(--mono)}
-table.tbl th{text-align:left;font:10px var(--mono);letter-spacing:1.1px;color:var(--m);padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.tbl{width:100%;border-collapse:collapse;font-size:12px}
+table.tbl th{text-align:right;font-size:11px;color:var(--m);padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
 table.tbl td{padding:6px 8px;border-bottom:1px solid #1d2443;white-space:nowrap;vertical-align:middle}
-table.tbl tr:hover td{background:#161b38}table.tbl td.nm{color:#fff;font-weight:600}
-.badge{display:inline-block;border:1px solid #4b5563;border-radius:4px;padding:0 5px;font:10px var(--mono);letter-spacing:.6px;color:#9ca3af}
+table.tbl tr:hover td{background:#161b38}table.tbl td.nm{color:#fff;font:600 12px var(--mono)}
+.badge{display:inline-block;border:1px solid #4b5563;border-radius:4px;padding:0 6px;font-size:11px;color:#9ca3af}
 .badge.kill{border-color:#7f1d1d;color:var(--r)}.badge.live{border-color:#166534;color:var(--g)}.badge.warn{border-color:#92400e;color:var(--risk)}
-.coins{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.coin{border:1px solid var(--line);border-radius:8px;padding:8px 9px;background:#0f1430;min-width:0}
+.coins{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.coin{border:1px solid var(--line);border-radius:8px;padding:7px 9px;background:#0f1430;min-width:0;direction:ltr;text-align:left}
 .coin b{font:13px var(--mono);color:#e6e9f7;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.coin .nm{font:10.5px var(--mono);color:var(--m)}
-.coin .px{font:15px var(--mono);color:#fff;margin-top:3px}
-.coin .ch{font:11px var(--mono)}
-.poslist{font:12.5px var(--mono)}
-.poslist .row{display:grid;grid-template-columns:1fr auto auto auto;gap:10px;padding:7px 0;border-bottom:1px solid #1d2443;align-items:center}
-.poslist .empty{color:var(--m);padding:8px 0}
-.tail{font:11.5px var(--mono);height:280px;overflow:auto;white-space:nowrap;background:#0a0e1c;border:1px solid #1a2040;border-radius:8px;padding:8px 10px}
+.coin .nm{font:10.5px var(--mono);color:var(--m)}.coin .px{font:15px var(--mono);color:#fff;margin-top:2px}.coin .ch{font:11px var(--mono)}
+.poslist{font-size:12.5px}
+.poslist .row{display:grid;grid-template-columns:1fr auto auto;gap:8px;padding:6px 0;border-bottom:1px solid #1d2443;align-items:center}
+.poslist .empty{color:var(--m);padding:6px 0}
+.tail{font:11.5px var(--mono);height:300px;overflow:auto;white-space:nowrap;background:#0a0e1c;border:1px solid #1a2040;border-radius:8px;padding:8px 10px;direction:ltr;text-align:left}
 .tail div{overflow:hidden;text-overflow:ellipsis}.tail .t{color:#5b638a}
-.L-START,.L-SYS{color:var(--log)}.L-BAR_SCAN{color:#8a93b8}.L-FILL,.L-ORDER{color:var(--exec)}
-.L-EXIT{color:var(--log)}.L-WIN{color:var(--g)}.L-LOSS,.L-SHIELD_BLOCK,.L-SHIELD_HALT,.L-CANCEL{color:var(--r)}
-.tail b{color:#e6e9f7;font-weight:600}
+.tail .ac{display:inline-block;min-width:22px;text-align:center;border-radius:3px;font-size:10px;padding:0 3px;margin:0 4px;color:#0b0f1f}
+.tail .ac.T{background:var(--t1)}.tail .ac.D{background:var(--t2)}
+.tail .tg{font-family:var(--sans);font-weight:700;margin-right:6px}
+.L-START,.L-SYS{color:var(--log)}.L-BAR_SCAN,.L-DAY_SCAN{color:#8a93b8}.L-FILL,.L-ORDER{color:var(--exec)}
+.L-EXIT,.L-EXIT_SIGNAL{color:var(--log)}.L-WIN{color:var(--g)}.L-LOSS,.L-SHIELD_BLOCK,.L-SHIELD_HALT,.L-CANCEL{color:var(--r)}
 .tail div.fresh{animation:fadeIn .4s ease}
-.tail div.fresh .msg{display:inline-block;max-width:100%;overflow:hidden;vertical-align:bottom;animation:typeon .55s steps(36,end)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
-@keyframes typeon{from{max-width:0}to{max-width:100%}}
-.tailnote{margin-top:6px;font:10.5px var(--mono);color:var(--m);letter-spacing:0;white-space:normal}
-.foot{padding:4px 16px 14px;font:11px var(--mono);color:var(--m);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.tailnote{margin-top:6px;font-size:11px;color:var(--m);white-space:normal}
+.foot{padding:4px 16px 14px;font-size:11.5px;color:var(--m);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+@media(max-width:980px){.accts{grid-template-columns:1fr}.coins{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:860px){
   .win{margin:0;border-radius:0;border-left:0;border-right:0}.grid{display:flex;flex-direction:column;padding:0 8px 10px;gap:10px}
-  .side{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.pn{padding:10px}.chrome .ttl{text-align:left}
-  .hdr{padding:12px}.ava{width:56px;height:56px;gap:9px}.ava b{width:7px;height:16px}.ttlb h1{font-size:22px}.bal{width:100%;text-align:left;margin:0}.bal .big{font-size:34px}
-  .metrics,.coins{grid-template-columns:repeat(2,1fr)}.split{grid-template-columns:1fr}
+  .side{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.pn{padding:10px}
+  .hdr{padding:12px}.ava{width:56px;height:56px;gap:9px}.ava b{width:7px;height:16px}.ttlb h1{font-size:21px}.bal{width:100%;text-align:right;margin:0}.bal .big{font-size:30px}
+  .coins{grid-template-columns:repeat(2,1fr)}.nums{grid-template-columns:1fr}
   .ag .rule{font-size:12px}.agh .nm{font-size:15px}.agh .rl{font-size:12px}.ag{padding:9px}.ico{display:none}
-  .poslist .row{grid-template-columns:1fr 1fr;gap:4px}
 }
 </style></head>
 <body>
 <div class="win">
-  <div class="chrome"><i style="background:#f472b6"></i><i style="background:#facc15"></i><i style="background:#5eead4"></i><span class="ttl">grok-bot — <a class="navx" href="../">sol-desk</a> — Quant Desk · Binance — paper only</span><span class="paperb">PAPER ✓ · تداول تجريبي — بدون أموال حقيقية</span></div>
-  <div class="snapb">👁 عرض فقط — تداول تجريبي — بدون أموال حقيقية · view only · paper trading · no real funds · no Binance account</div>
+  <div class="chrome"><i style="background:#f472b6"></i><i style="background:#facc15"></i><i style="background:#5eead4"></i><span class="ttl">grok-bot — <a class="navx" href="../">sol-desk</a> — مكتب الكوانت · باينانس — تجريبي فقط</span><span class="paperb">تداول تجريبي — بدون أموال حقيقية</span></div>
+  <div class="snapb">👁 عرض فقط — تداول تجريبي — بدون أموال حقيقية · ما فيه حساب باينانس ولا مفاتيح · حسابين تجريبيين منفصلين، كل واحد <span class="n">$1,000</span></div>
   <div class="hdr">
     <div class="ava"><b></b><b></b></div>
     <div class="ttlb">
-      <h1><span>Quant Desk</span> · Binance <span class="pill desk">turtle_4h</span></h1>
-      <div class="run"><span class="dot" id="dot"></span><span id="stxt">STATUS —</span> · <span id="upt">00:00:00</span><span class="livetag off" id="livetag"><i></i>LIVE</span><span class="pill warnpill" id="unp">UNPROVEN</span></div>
-      <div class="tag">Radar · Lab · Forge · Shield · 15m universe · paper $1,000</div>
-      <div class="ar">تداول تجريبي — بدون أموال حقيقية · <span id="clock"></span> KSA · <span id="upd">last update —</span></div>
+      <h1><span>مكتب الكوانت</span> · باينانس <span class="pill desk n">turtle_4h + donchian_1d</span></h1>
+      <div class="run"><span class="dot" id="dot"></span><span id="stxt">الحالة —</span> · <span class="n" id="upt">00:00:00</span><span class="livetag off" id="livetag"><i></i>مباشر LIVE</span><span class="pill warnpill">غير مثبتة</span></div>
+      <div class="tag">الرادار · المختبر · المصنع · الدرع · أكبر 20 عملة · حسابين تجريبيين</div>
+      <div class="sub2">تداول تجريبي — بدون أموال حقيقية · <span class="n" id="clock"></span> بتوقيت الرياض · <span id="upd">آخر تحديث —</span></div>
     </div>
-    <div class="bal"><div class="big" id="bal">$1,000.00</div><div class="sub" id="balsub">paper equity · started at $1,000</div>
-      <div class="wl"><span id="ntr">0 trades</span> · <span class="ok" id="nw">0 W</span> · <span class="bad" id="nl">0 L</span> · <span id="roi">P&amp;L $0.00</span> · <span id="daily">today $0.00</span></div></div>
+    <div class="bal"><div class="sub">مجموع الحسابين</div><div class="big" id="bal">$2,000.00</div><div class="sub" id="balsub">بداية <span class="n">$2,000</span></div></div>
   </div>
   <div class="grid">
     <div class="side">
-      <div class="ag" id="cRadar" style="color:var(--scout)"><div class="agh"><div class="ico">📡</div><div><div class="nm">RADAR</div><div class="rl">ranks the top 20 coins</div></div><span class="bd">SCAN</span></div>
-        <div class="rule">Binance spot · 15m bars + funding</div><div class="ft" id="fRadar">ideas 0</div></div>
-      <div class="ag" id="cLab" style="color:var(--analyst)"><div class="agh"><div class="ico">🧪</div><div><div class="nm">LAB</div><div class="rl">walk-forward, then kill</div></div><span class="bd">TEST</span></div>
-        <div class="rule">4y OOS after fees + slip</div><div class="ft" id="fLab">tested 0</div></div>
-      <div class="ag act" id="cForge" style="color:var(--exec)"><div class="agh"><div class="ico">⚙️</div><div><div class="nm">FORGE</div><div class="rl">runs the paper bot</div></div><span class="bd" id="bForge">IDLE</span></div>
-        <div class="rule">active setup · live Binance prices</div><div class="ft" id="fForge">no open trades</div></div>
-      <div class="ag" id="cShield" style="color:var(--risk)"><div class="agh"><div class="ico">🛡️</div><div><div class="nm">SHIELD</div><div class="rl">gates every entry</div></div><span class="bd" id="bShield">OK</span></div>
-        <div class="rule">daily stop −3% · 3 losses → 24h pause</div><div class="ft" id="fShield">blocks 0</div></div>
+      <div class="ag" style="color:var(--scout)"><div class="agh"><div class="ico">📡</div><div><div class="nm">الرادار<small>RADAR</small></div><div class="rl">يرتّب أكبر 20 عملة</div></div><span class="bd">فحص</span></div>
+        <div class="rule">باينانس سبوت · شموع 15 دقيقة + التمويل</div><div class="ft" id="fRadar">أفكار 0</div></div>
+      <div class="ag" style="color:var(--analyst)"><div class="agh"><div class="ico">🧪</div><div><div class="nm">المختبر<small>LAB</small></div><div class="rl">اختبار متدرّج ثم استبعاد</div></div><span class="bd">اختبار</span></div>
+        <div class="rule">خارج العينة بعد الرسوم والانزلاق</div><div class="ft" id="fLab">مختبرة 0</div></div>
+      <div class="ag act" id="cForge" style="color:var(--exec)"><div class="agh"><div class="ico">⚙️</div><div><div class="nm">المصنع<small>FORGE</small></div><div class="rl">يشغّل البوتين التجريبيين</div></div><span class="bd" id="bForge">خامل</span></div>
+        <div class="rule">أسعار باينانس الحية · حسابين منفصلين</div><div class="ft" id="fForge">ما فيه صفقات مفتوحة</div></div>
+      <div class="ag" style="color:var(--risk)"><div class="agh"><div class="ico">🛡️</div><div><div class="nm">الدرع<small>SHIELD</small></div><div class="rl">يفحص كل دخول</div></div><span class="bd" id="bShield">سليم</span></div>
+        <div class="rule">وقف يومي <span class="n">−3%</span> · 3 خسائر ← إيقاف 24 ساعة</div><div class="ft" id="fShield">منع 0</div></div>
     </div>
     <div class="main">
-      <div class="pn full">
-        <div class="ph">ACCOUNT · SHIELD · PAPER ONLY<span class="r" id="shline">shield OK</span></div>
-        <div class="metrics">
-          <div class="metric"><div class="k">EQUITY</div><div class="v" id="mEq">$1,000</div><div class="s" id="mEqs">vs $1,000 start</div></div>
-          <div class="metric"><div class="k">P&amp;L</div><div class="v" id="mPnl">$0.00</div><div class="s" id="mPnlp">+0.00%</div></div>
-          <div class="metric"><div class="k">TODAY</div><div class="v" id="mDay">$0.00</div><div class="s" id="mDays">UTC day vs open equity</div></div>
-          <div class="metric"><div class="k">SHIELD</div><div class="v" id="mSh">OK</div><div class="s" id="mShs">no halt · 0 blocks</div></div>
-        </div>
-      </div>
-      <div class="pn full">
-        <div class="ph">ACTIVE STRATEGY · TURTLE_4H<span class="r">marked UNPROVEN · did not beat buy &amp; hold</span></div>
-        <div class="split">
-          <div>
-            <div class="mut mono" style="margin-bottom:6px" id="idea">Turtle-style 20×4h breakout with 10×4h exit.</div>
-            <ul class="rules" id="rules"></ul>
-            <div class="nums" id="snums"></div>
-          </div>
-          <div class="failbox">
-            <h3>WHY THIS COULD FAIL</h3>
-            <ul id="whyfail" style="margin:0;padding-left:18px"></ul>
-          </div>
-        </div>
-      </div>
-      <div class="pn full">
-        <div class="ph">RANKED SETUPS · TOP 10<span class="r" id="ranksrc">research/ranked.json</span></div>
-        <div class="tblwrap"><table class="tbl" id="ranktbl"><thead><tr>
-          <th>#</th><th>SETUP</th><th>FAMILY</th><th>OOS %</th><th>MAX DD</th><th>WIN%</th><th>TRADES</th><th>PF</th><th>STREAK</th><th>STATUS</th>
+      <div class="accts" id="accts"></div>
+      <div class="pn">
+        <div class="ph">ترتيب الاستراتيجيات · أفضل 10<span class="r n" id="ranksrc">research/ranked_v2.json</span></div>
+        <div class="tblwrap"><table class="tbl"><thead><tr>
+          <th>#</th><th>الاستراتيجية</th><th>النوع</th><th>العائد خارج العينة</th><th>أقصى نزول</th><th>نسبة الربح</th><th>الصفقات</th><th>معامل الربح</th><th>أطول خسائر</th><th>الحالة</th>
         </tr></thead><tbody id="rankbody"></tbody></table></div>
         <div class="tailnote" id="ranknote"></div>
       </div>
-      <div class="split">
-        <div class="pn">
-          <div class="ph">OPEN POSITIONS<span class="r" id="posr">0 open · max 3</span></div>
-          <div class="poslist" id="poslist"><div class="empty">no open paper trades</div></div>
-        </div>
-        <div class="pn">
-          <div class="ph">PENDING / RECENT<span class="r" id="recents">—</span></div>
-          <div class="poslist" id="recent"><div class="empty">no fills yet</div></div>
-        </div>
-      </div>
-      <div class="pn full">
-        <div class="ph">LIVE PRICES · TOP 20<span class="r" id="pxsrc">waiting for ticker</span></div>
+      <div class="pn">
+        <div class="ph">الأسعار الحية · أكبر 20 عملة<span class="r" id="pxsrc">بانتظار الأسعار</span></div>
         <div class="coins" id="coins"></div>
       </div>
-      <div class="pn full">
-        <div class="ph">TERMINAL · TAIL -F LOGS/DECISIONS.JSONL<span class="r" id="tailline">0 lines</span></div>
+      <div class="pn">
+        <div class="ph">الطرفية · سجل قرارات البوتين<span class="r" id="tailline">0 سطر</span></div>
         <div class="tail" id="tail"></div>
-        <div class="tailnote">Real forge decisions only. New lines append when the snapshot updates (~60s). Prices above refresh every few seconds from a public Binance ticker — they are not trades.</div>
+        <div class="tailnote">قرارات حقيقية من البوتين بس (<span class="n">T</span> = حساب turtle_4h، <span class="n">D</span> = حساب donchian_1d). الأسطر الجديدة تنضاف مع كل تحديث (كل دقيقة تقريبًا). الأسعار فوق تتحدث كل كم ثانية من مؤشر باينانس العام، وهي مو صفقات.</div>
       </div>
     </div>
   </div>
   <div class="foot">
-    <div>view only · <span class="ar">تداول تجريبي — بدون أموال حقيقية</span> · <a class="navx" href="../">← sol-desk (Solana)</a></div>
-    <div id="footupd">snapshot —</div>
+    <div>عرض فقط · تداول تجريبي — بدون أموال حقيقية · <a class="navx" href="../">← sol-desk (سولانا)</a></div>
+    <div id="footupd">آخر لقطة —</div>
   </div>
 </div>
 <script>
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const sg = v => v >= 0 ? '+' : '';
+const N = s => `<span class="n">${s}</span>`;
+const sg = v => v >= 0 ? '+' : '-';
 const upt = s => [Math.floor(s/3600), Math.floor(s%3600/60), Math.floor(s%60)].map(x => String(x).padStart(2,'0')).join(':');
 const ago = ms => {
   if (ms == null || ms < 0) return '—';
   const s = Math.max(0, Math.round(ms / 1000));
-  if (s < 60) return s + 's ago';
-  if (s < 3600) return Math.floor(s/60) + 'm ' + (s%60) + 's ago';
-  return Math.floor(s/3600) + 'h ' + Math.floor(s%3600/60) + 'm ago';
+  if (s < 60) return 'قبل ' + N(s + 's');
+  if (s < 3600) return 'قبل ' + N(Math.floor(s/60) + 'm ' + (s%60) + 's');
+  return 'قبل ' + N(Math.floor(s/3600) + 'h ' + Math.floor(s%3600/60) + 'm');
 };
 const usd = (n, d=2) => {
   if (n == null || !Number.isFinite(+n)) return '—';
-  const v = +n;
-  const abs = Math.abs(v);
+  const v = +n, abs = Math.abs(v);
   const digits = abs >= 1000 ? 2 : abs >= 1 ? d : abs >= 0.01 ? 4 : 6;
-  return (v < 0 ? '-' : '') + '$' + Math.abs(v).toLocaleString('en-US', {minimumFractionDigits: digits, maximumFractionDigits: digits});
+  return (v < 0 ? '-' : '') + '$' + abs.toLocaleString('en-US', {minimumFractionDigits: digits, maximumFractionDigits: digits});
 };
+const susd = v => (v >= 0 ? '+' : '-') + usd(Math.abs(v || 0));
 const pxfmt = n => {
   if (n == null || !Number.isFinite(+n)) return '—';
   const v = +n, a = Math.abs(v);
-  return a >= 100 ? v.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
-    : a >= 1 ? v.toFixed(3) : a >= 0.01 ? v.toFixed(5) : v.toPrecision(4);
+  return a >= 100 ? v.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : a >= 1 ? v.toFixed(3) : a >= 0.01 ? v.toFixed(5) : v.toPrecision(4);
 };
-const pct = (n, d=2) => n == null || !Number.isFinite(+n) ? '—' : sg(+n) + (+n).toFixed(d) + '%';
+const pct = (n, d=2) => n == null || !Number.isFinite(+n) ? '—' : (+n >= 0 ? '+' : '') + (+n).toFixed(d) + '%';
 const cls = n => (n == null || !Number.isFinite(+n) || +n === 0) ? 'mut' : +n > 0 ? 'ok' : 'bad';
+const SH_AR = {'OK': 'سليم', 'DAILY STOP': 'وقف يومي', 'PAUSE': 'إيقاف مؤقت', 'HALT': 'موقوف'};
+const REG_AR = {trending: 'ترند', ranging: 'عرضي', volatile: 'متقلّب', mixed: 'مختلط'};
+const FAM_AR = {trend: 'اتجاه', momentum: 'زخم', volatility: 'تذبذب', 'mean-reversion': 'ارتداد للمتوسط', breakout: 'اختراق', carry: 'تمويل', flow: 'تدفق', reversal: 'انعكاس', session: 'جلسات'};
+const TAG_AR = {START: 'تشغيل', BAR_SCAN: 'فحص شمعة', DAY_SCAN: 'فحص يومي', SHIELD_BLOCK: 'منع الدرع', SHIELD_HALT: 'إيقاف الدرع', ORDER: 'أمر', CANCEL: 'إلغاء',
+  FILL: 'تنفيذ', 'EXIT WIN': 'خروج رابح', 'EXIT LOSS': 'خروج خاسر', EXIT_SIGNAL: 'إشارة خروج', ORDER_EXPIRED: 'انتهى الأمر', ERROR: 'خطأ'};
+function reasonAr(r) {
+  r = String(r || '');
+  if (/^stop hit/i.test(r)) return 'ضرب الوقف';
+  if (/flatten/i.test(r)) return 'تصفية: الوقف اليومي';
+  if (/exit.signal/i.test(r)) return 'إشارة خروج';
+  if (/time stop/i.test(r)) return 'وقف زمني';
+  if (/target/i.test(r)) return 'وصل الهدف';
+  return r.slice(0, 40);
+}
 
 let ST = null, lastOk = 0, lastLiveAt = 0, lastPxErr = 0, livePrices = {}, liveChg = {};
 const tailKeys = new Set();
@@ -206,54 +190,41 @@ let tailInit = false;
 const TICKER = 'https://data-api.binance.vision/api/v3/ticker/24hr';
 const TICKER_FB = 'https://data-api.binance.vision/api/v3/ticker/price';
 
-function symbols() {
-  return (ST && ST.universe && ST.universe.length) ? ST.universe.map(u => u.symbol) : Object.keys((ST && ST.prices) || {});
-}
+function accounts() { return (ST && ST.accounts) || []; }
+function symbols() { return (ST && ST.universe && ST.universe.length) ? ST.universe.map(u => u.symbol) : Object.keys((ST && ST.prices) || {}); }
 function priceOf(sym) {
   if (livePrices[sym] != null) return livePrices[sym];
   if (ST && ST.prices && ST.prices[sym] != null) return ST.prices[sym];
   return null;
 }
-function fee() { return (ST && ST.fee) || 0.001; }
-
-function liveEquity() {
-  if (!ST) return 0;
-  const feeRate = fee();
+function posPnl(p, fee) {
+  const px = priceOf(p.symbol);
+  if (px == null || p.entry == null || p.qty == null) return { usd: p.pnl_usd || 0, pct: p.pnl_pct || 0, px: p.last_price };
+  const u = p.d * (px - p.entry) * p.qty - fee * px * p.qty, den = p.entry * p.qty;
+  return { usd: u, pct: den ? u / den * 100 : 0, px };
+}
+function liveEq(a) {
   let u = 0;
-  for (const p of (ST.positions || [])) {
-    const px = priceOf(p.symbol);
-    if (px == null || p.entry == null || p.qty == null) { u += p.pnl_usd || 0; continue; }
-    u += p.d * (px - p.entry) * p.qty - feeRate * px * p.qty;
-  }
-  return (ST.cash || 0) + u;
+  for (const p of (a.positions || [])) u += posPnl(p, a.fee || 0.001).usd;
+  return (a.cash || 0) + u;
 }
+function ksaClock() { return new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Riyadh' }); }
+function botLive(a) { return a.status === 'RUNNING' && (Date.now() - (ST.now || 0)) < 180000; }
 
-function ksaClock() {
-  return new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Riyadh' });
-}
-
-function logKey(l) {
-  return (l.ts || '') + '|' + (l.line || l.type || '') + '|' + (l.id || '');
-}
+function logKey(l) { return (l.account || '') + '|' + (l.ts || '') + '|' + (l.line || l.type || '') + '|' + (l.id || ''); }
 function makeLine(l, animate) {
   const div = document.createElement('div');
   const typ = String(l.type || 'SYS').toUpperCase();
   let color = typ;
-  if (typ === 'EXIT' && (l.pnl_usd || 0) > 0) color = 'WIN';
-  if (typ === 'EXIT' && (l.pnl_usd || 0) <= 0) color = 'LOSS';
-  const ts = (l.ts || '').replace('T', ' ').replace('Z', 'Z');
-  const msg = l.line || typ;
+  if (typ === 'EXIT') color = (l.pnl_usd || 0) > 0 ? 'WIN' : 'LOSS';
+  const parts = String(l.line || typ).split(/\s{2,}/);
+  const ts = (parts.shift() || l.ts || '');
+  const tag = parts.shift() || typ;
+  const ar = TAG_AR[tag] || TAG_AR[typ];
+  const acc = l.account === 'donchian_1d' ? 'D' : 'T';
   div.className = (animate ? 'fresh ' : '') + 'L-' + color;
-  div.innerHTML = `<span class="t">${esc(ts.slice(11,19) || ts)}</span>  <span class="msg">${esc(msg.replace(/^\S+\s+/, ''))}</span>`;
+  div.innerHTML = `<span class="t">${esc(ts.slice(11,19) || ts)}</span><span class="ac ${acc}">${acc}</span>${ar ? `<span class="tg" dir="rtl">${esc(ar)}</span>` : ''}<span class="mut">${esc(tag)}</span>  ${esc(parts.join('  '))}`;
   return div;
-}
-function appendLine(l, animate) {
-  const T = $('tail');
-  const pinned = T.scrollTop + T.clientHeight >= T.scrollHeight - 36;
-  T.appendChild(makeLine(l, animate));
-  tailKeys.add(logKey(l));
-  while (T.children.length > 200) T.removeChild(T.firstElementChild);
-  if (pinned) T.scrollTop = T.scrollHeight;
 }
 function syncTail() {
   const lines = (ST && ST.decisions) || [];
@@ -261,176 +232,135 @@ function syncTail() {
   if (!lines.length && !tailInit) return;
   const overlap = tailInit && lines.some(l => tailKeys.has(logKey(l)));
   if (!tailInit || (lines.length && !overlap)) {
-    T.innerHTML = '';
-    tailKeys.clear();
-    for (const l of lines) {
-      T.appendChild(makeLine(l, false));
-      tailKeys.add(logKey(l));
-    }
-    tailInit = true;
-    T.scrollTop = T.scrollHeight;
-    return;
+    T.innerHTML = ''; tailKeys.clear();
+    for (const l of lines) { T.appendChild(makeLine(l, false)); tailKeys.add(logKey(l)); }
+    tailInit = true; T.scrollTop = T.scrollHeight; return;
   }
   const fresh = lines.filter(l => !tailKeys.has(logKey(l)));
-  fresh.forEach((l, i) => appendLine(l, i >= fresh.length - 8));
+  const pinned = T.scrollTop + T.clientHeight >= T.scrollHeight - 36;
+  fresh.forEach((l, i) => { T.appendChild(makeLine(l, i >= fresh.length - 8)); tailKeys.add(logKey(l)); });
+  while (T.children.length > 250) T.removeChild(T.firstElementChild);
+  if (pinned) T.scrollTop = T.scrollHeight;
 }
 
 function renderStatus() {
   if (!ST) return;
-  const ageMs = Date.now() - (lastOk || ST.now || 0);
-  const snapAge = Date.now() - (ST.now || 0);
-  const botLive = ST.status === 'RUNNING' && snapAge < 180000;
+  const A = accounts();
+  const live = A.filter(botLive).length;
   const livePx = lastLiveAt && (Date.now() - lastLiveAt < 20000);
-  $('dot').className = 'dot' + (botLive ? '' : ' off');
-  $('livetag').className = 'livetag' + (botLive || livePx ? '' : ' off');
-  $('stxt').textContent = botLive ? 'STATUS RUNNING' : 'STATUS STOPPED';
-  const start = ST.started_at ? Date.parse(ST.started_at) : NaN;
-  const up = Number.isFinite(start)
-    ? Math.max(0, Math.round(((botLive ? Date.now() : (ST.now || Date.now())) - start) / 1000))
-    : (ST.uptime_sec || 0);
-  $('upt').textContent = upt(up);
+  $('dot').className = 'dot' + (live ? '' : ' off');
+  $('livetag').className = 'livetag' + (live || livePx ? '' : ' off');
+  $('stxt').textContent = 'الحالة: ' + (live === A.length && A.length ? 'البوتين شغّالين' : live ? 'بوت واحد شغّال' : 'متوقف');
+  const starts = A.map(a => Date.parse(a.started_at)).filter(Number.isFinite);
+  const start = starts.length ? Math.min(...starts) : NaN;
+  $('upt').textContent = upt(Number.isFinite(start) ? Math.max(0, Math.round(((live ? Date.now() : (ST.now || Date.now())) - start) / 1000)) : 0);
   $('clock').textContent = ksaClock();
-  const parts = ['snapshot ' + ago(ageMs)];
-  if (lastLiveAt) parts.push('prices ' + ago(Date.now() - lastLiveAt));
-  if (lastPxErr) parts.push('ticker error ' + ago(Date.now() - lastPxErr));
-  $('upd').textContent = parts.join(' · ');
-  $('footupd').textContent = 'snapshot ' + (ST.generated_at || '') + ' · heartbeat ' + (ST.heartbeat_age_s == null ? '—' : ST.heartbeat_age_s + 's');
+  const parts = ['اللقطة ' + ago(Date.now() - (lastOk || ST.now || 0))];
+  if (lastLiveAt) parts.push('الأسعار ' + ago(Date.now() - lastLiveAt));
+  if (lastPxErr) parts.push('خطأ في الأسعار ' + ago(Date.now() - lastPxErr));
+  $('upd').innerHTML = parts.join(' · ');
+  $('footupd').innerHTML = 'آخر لقطة ' + N(esc(ST.generated_at || '')) + ' · نبض البوتين ' + A.map(a => N(a.id + ' ' + (a.heartbeat_age_s == null ? '—' : a.heartbeat_age_s + 's'))).join(' · ');
+  A.forEach((a, i) => {
+    const el = $('ast' + i); if (!el) return;
+    const on = botLive(a);
+    el.innerHTML = `<span class="${on ? 'ok' : 'bad'}">● ${on ? 'شغّال' : 'متوقف'}</span> · ${(a.positions || []).length ? 'في صفقة' : 'يراقب'} · فريم ${N(a.timeframe === '1d' ? '1D' : '15m')} · الدرع ${esc(SH_AR[(a.shield || {}).status] || 'سليم')}`;
+  });
 }
 
-function posPnl(p) {
-  const px = priceOf(p.symbol);
-  if (px == null || p.entry == null || p.qty == null) return { usd: p.pnl_usd || 0, pct: p.pnl_pct || 0, px: p.last_price };
-  const usdV = p.d * (px - p.entry) * p.qty - fee() * px * p.qty;
-  const denom = p.entry * p.qty;
-  return { usd: usdV, pct: denom ? usdV / denom * 100 : 0, px };
+function acctCard(a, i) {
+  const fee = a.fee || 0.001;
+  const eq = liveEq(a), start = a.start_equity || 1000, pnl = eq - start, pnlPct = start ? pnl / start * 100 : 0;
+  const dayStart = a.day_start_equity || start, dayPnl = eq - dayStart, dayPct = dayStart ? dayPnl / dayStart * 100 : 0;
+  const S = a.shield || {}, U = a.setup || {}, P = U.params || {};
+  const pos = a.positions || [], pend = a.pending || [], closed = (a.closed || []).slice().reverse().slice(0, 5);
+  const bf = a.btc_filter;
+  let posHtml = pos.map(p => {
+    const m = posPnl(p, fee);
+    return `<div class="row"><div><b class="n">${esc(p.symbol)}</b> <span class="mut">${p.d === -1 ? 'بيع' : 'شراء'}</span><div class="mut">دخول ${N(pxfmt(p.entry))} ← الحين ${N(pxfmt(m.px))} · الوقف ${N(pxfmt(p.stop))}</div></div>
+      <div></div><div class="${cls(m.usd)}">${N(susd(m.usd) + ' (' + pct(m.pct) + ')')}</div></div>`;
+  }).join('');
+  posHtml += pend.map(o => `<div class="row"><div><b class="n">${esc(o.symbol)}</b> <span class="mut">أمر معلّق (سوق)</span><div class="mut">مرجع ${N(pxfmt(o.ref_price))} · الوقف ${N(pxfmt(o.stop))}</div></div><div></div><div class="mut">ينتظر التنفيذ</div></div>`).join('');
+  const clHtml = closed.map(p => `<div class="row"><div><b class="n">${esc(p.symbol)}</b> <span class="mut">${esc(reasonAr(p.exit_reason))}</span><div class="mut">${N(pxfmt(p.entry) + ' → ' + pxfmt(p.exit))}</div></div><div></div><div class="${cls(p.pnl_usd)}">${N(susd(p.pnl_usd))}</div></div>`).join('');
+  const nums = [
+    ['العائد خارج العينة', pct(U.oos_return_pct, 1), cls(U.oos_return_pct)],
+    ['أقصى نزول', U.max_dd_pct == null ? '—' : U.max_dd_pct.toFixed(1) + '%', 'bad'],
+    ['الشراء والاحتفاظ', pct(U.buy_hold_oos_pct, 1), cls(U.buy_hold_oos_pct)],
+    ['نسبة الربح', U.win_rate_pct == null ? '—' : U.win_rate_pct + '%', ''],
+    ['صفقات الاختبار', U.trades ?? '—', ''],
+    ['معامل الربح', U.profit_factor ?? '—', ''],
+    ['أطول سلسلة خسائر', U.longest_losing_streak ?? '—', 'bad'],
+    ['مع ضعف الرسوم', pct(U.oos_double_fee_pct, 1), cls(U.oos_double_fee_pct)]
+  ].map(([k,v,c]) => `<div><span class="mut">${k}</span><b class="${c}">${v}</b></div>`).join('');
+  return `<div class="pn acct${a.id === 'donchian_1d' ? ' d' : ''}">
+    <h2>حساب <span class="n">${esc(a.id)}</span> <span class="pill warnpill">غير مثبتة</span></h2>
+    <div class="astat" id="ast${i}"></div>
+    <div><span class="abig">${usd(eq)}</span> <span class="mut" style="font-size:12px">رصيد تجريبي · بداية ${N(usd(start))} · كاش ${N(usd(a.cash))}</span></div>
+    <div class="metrics">
+      <div class="metric"><div class="k">الربح/الخسارة</div><div class="v ${cls(pnl)}">${N(susd(pnl))}</div><div class="s">${N(pct(pnlPct))}</div></div>
+      <div class="metric"><div class="k">اليوم (UTC)</div><div class="v ${cls(dayPnl)}">${N(susd(dayPnl))}</div><div class="s">${N(pct(dayPct))} من رصيد بداية اليوم</div></div>
+      <div class="metric"><div class="k">الصفقات</div><div class="v">${N(a.trades || 0)}</div><div class="s"><span class="ok">${N(a.wins || 0)} ربح</span> · <span class="bad">${N(a.losses || 0)} خسارة</span></div></div>
+      <div class="metric"><div class="k">الدرع</div><div class="v ${S.status && S.status !== 'OK' ? 'bad' : 'ok'}" style="font-family:var(--sans)">${esc(SH_AR[S.status] || 'سليم')}</div><div class="s">${S.halt && S.halt.detail ? N(esc(S.halt.detail)) : 'منع ' + N(S.blocks || 0) + ' · خسائر متتالية ' + N((S.consec_losses || 0) + '/' + (S.max_consec_losses || 3))}</div></div>
+    </div>
+    ${bf ? `<div class="bfil">فلتر البيتكوين (يوم ${N(esc(bf.bar || ''))}): الإغلاق ${N(pxfmt(bf.btc_close))} مقابل متوسط 200 يوم ${N(pxfmt(bf.sma200))} — ${bf.above_sma200 ? '<b class="ok">فوق المتوسط: الدخول مسموح</b>' : '<b class="bad">تحت المتوسط: ما فيه دخول جديد</b>'}</div>` : ''}
+    <div class="sec">الصفقات المفتوحة<span class="r">${N(pos.length)} مفتوحة · ${N(pend.length)} معلّقة · الحد ${N(a.max_open || 3)}</span></div>
+    <div class="poslist">${posHtml || '<div class="empty">ما فيه صفقات تجريبية مفتوحة</div>'}</div>
+    <div class="sec">آخر الصفقات المقفلة<span class="r">${N(closed.length)}</span></div>
+    <div class="poslist">${clHtml || '<div class="empty">ما فيه صفقات مقفلة لين الحين</div>'}</div>
+    <div class="sec">بطاقة الاستراتيجية<span class="r n">${esc(Object.entries(P).map(([k,v]) => k + '=' + v).join(' '))}</span></div>
+    <div class="mut" style="font-size:12.5px;margin-bottom:4px">${esc(U.reason_ar || '')}</div>
+    <ul class="rules">${(U.rules_ar || []).map(r => `<li><i>✓</i><span>${esc(r)}</span></li>`).join('')}</ul>
+    <div class="nums">${nums}</div>
+    <div class="mut" style="font-size:11px">نتائج الاختبار خارج العينة ${N(esc(U.oos_period || ''))} بعد الرسوم والانزلاق</div>
+    <div class="failbox"><h3>ليش ممكن تفشل</h3><ul>${(U.why_fail_ar || []).map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>
+  </div>`;
 }
 
 function render(opts) {
   if (!ST) return;
-  const eq = liveEquity();
-  const start = ST.start_equity || 1000;
-  const pnl = eq - start;
-  const pnlPct = start ? pnl / start * 100 : 0;
-  const dayPnl = (ST.daily_pnl_usd || 0) + (eq - (ST.equity || eq));
-  const dayPct = (ST.day_start_equity || ST.start_equity) ? dayPnl / (ST.day_start_equity || ST.start_equity) * 100 : ST.daily_pnl_pct;
-  $('bal').textContent = usd(eq);
-  $('balsub').textContent = 'paper equity · started at ' + usd(start) + ' · cash ' + usd(ST.cash);
-  $('ntr').textContent = (ST.trades || 0) + ' trades';
-  $('nw').textContent = (ST.wins || 0) + ' W';
-  $('nl').textContent = (ST.losses || 0) + ' L';
-  $('roi').className = cls(pnl);
-  $('roi').textContent = 'P&L ' + (pnl >= 0 ? '+' : '') + usd(pnl) + ' (' + pct(pnlPct) + ')';
-  $('daily').className = cls(dayPnl);
-  $('daily').textContent = 'today ' + (dayPnl >= 0 ? '+' : '') + usd(dayPnl);
-  $('mEq').textContent = usd(eq);
-  $('mEqs').textContent = 'vs ' + usd(start) + ' start';
-  $('mPnl').className = 'v ' + cls(pnl);
-  $('mPnl').textContent = sg(pnl) + usd(Math.abs(pnl));
-  $('mPnlp').textContent = pct(pnlPct) + ' paper';
-  $('mDay').className = 'v ' + cls(dayPnl);
-  $('mDay').textContent = sg(dayPnl) + usd(Math.abs(dayPnl));
-  $('mDays').textContent = pct(dayPct) + ' vs day-start equity';
+  const A = accounts();
+  const tot = A.reduce((s, a) => s + liveEq(a), 0), tstart = A.reduce((s, a) => s + (a.start_equity || 1000), 0);
+  $('bal').textContent = usd(tot);
+  $('balsub').innerHTML = 'بداية ' + N(usd(tstart)) + ' · <span class="' + cls(tot - tstart) + '">' + N(susd(tot - tstart) + ' (' + pct(tstart ? (tot - tstart) / tstart * 100 : 0) + ')') + '</span>';
+  $('accts').innerHTML = A.map(acctCard).join('') || '<div class="pn mut">ما فيه بيانات حسابات</div>';
 
-  const T = ST.team || {};
-  const R = T.radar || {}, L = T.lab || {}, F = T.forge || {}, S = T.shield || {};
-  const btc30 = R.btc_ret_30d != null ? (R.btc_ret_30d * 100) : null;
-  $('fRadar').textContent = 'ideas ' + (R.ideas || 0) + ' · ranked ' + (R.ranked_coins || 0) + ' · BTC ' + (R.btc_regime || '—') + (btc30 == null ? '' : ' 30d ' + pct(btc30, 1));
-  $('fLab').textContent = 'tested ' + (L.tested || 0) + ' · killed ' + (L.killed || 0) + ' · survivors ' + (L.survivors || 0);
-  $('fForge').textContent = 'setup ' + (F.active || '—') + ' · open ' + (F.open || 0) + ' · pending ' + (F.pending || 0) + ' · scans ' + (F.scans || 0);
-  $('bForge').textContent = (ST.status === 'RUNNING' ? (F.open ? 'IN TRADE' : 'WATCH') : 'STOPPED');
-  $('cForge').className = 'ag' + (ST.status === 'RUNNING' ? ' act' : '');
-  $('bShield').textContent = S.status || 'OK';
-  $('fShield').textContent = 'blocks ' + (S.blocks || 0) + ' · consec losses ' + (S.consec_losses || 0) + '/' + (S.max_consec_losses || 3)
-    + (S.until ? ' · pause until ' + S.until : '');
-  $('mSh').className = 'v ' + ((S.status && S.status !== 'OK') ? 'bad' : 'ok');
-  $('mSh').textContent = S.status || 'OK';
-  $('mShs').textContent = (S.halt && S.halt.detail) ? S.halt.detail : ((S.blocks || 0) + ' blocks · daily stop ' + (S.daily_stop_pct ?? -3) + '%');
-  $('shline').textContent = 'shield ' + (S.status || 'OK') + ' · daily stop ' + (S.daily_stop_pct ?? -3) + '% · 3-loss pause 24h';
+  const T = ST.team || {}, R = T.radar || {}, L = T.lab || {};
+  const btc30 = R.btc_ret_30d != null ? R.btc_ret_30d * 100 : null;
+  $('fRadar').innerHTML = 'أفكار ' + N(R.ideas || 0) + ' · عملات ' + N(R.ranked_coins || 0) + ' · البيتكوين ' + esc(REG_AR[R.btc_regime] || R.btc_regime || '—') + (btc30 == null ? '' : ' · 30 يوم ' + N(pct(btc30, 1)));
+  $('fLab').innerHTML = 'مختبرة ' + N(L.tested || 0) + ' · مستبعدة ' + N(L.killed || 0) + ' · ناجحة ' + N(L.survivors || 0);
+  const nOpen = A.reduce((s, a) => s + (a.positions || []).length, 0), nScans = A.reduce((s, a) => s + (a.scans || 0), 0);
+  $('fForge').innerHTML = 'حسابين · مفتوحة ' + N(nOpen) + ' · فحوصات ' + N(nScans);
+  $('bForge').textContent = A.some(a => a.status === 'RUNNING') ? (nOpen ? 'في صفقة' : 'يراقب') : 'متوقف';
+  $('cForge').className = 'ag' + (A.some(a => a.status === 'RUNNING') ? ' act' : '');
+  const shs = A.map(a => (a.shield || {}).status || 'OK');
+  $('bShield').textContent = shs.every(s => s === 'OK') ? 'سليم' : 'تنبيه';
+  $('fShield').innerHTML = A.map(a => N(a.id) + ': ' + esc(SH_AR[(a.shield || {}).status] || 'سليم') + ' · منع ' + N((a.shield || {}).blocks || 0)).join('<br>');
 
-  const A = ST.active_setup || {};
-  $('idea').textContent = A.reason || '';
-  $('unp').textContent = A.status || 'UNPROVEN';
-  $('rules').innerHTML = (A.rules || []).map((r, i) => `<li class="ok"><i>✓</i><span>${esc(r)}</span></li>`).join('');
-  const bh = A.buy_hold_oos_pct, oos = A.oos_return_pct, dd = A.max_dd_pct;
-  $('snums').innerHTML = [
-    ['OOS return', pct(oos, 1), cls(oos)],
-    ['Max drawdown', (dd == null ? '—' : dd.toFixed(1) + '%'), 'bad'],
-    ['Buy & hold OOS', pct(bh, 1), cls(bh)],
-    ['Win rate', (A.win_rate_pct == null ? '—' : A.win_rate_pct + '%'), ''],
-    ['OOS trades', A.trades ?? '—', ''],
-    ['Profit factor', A.profit_factor ?? '—', ''],
-    ['Longest losing streak', A.longest_losing_streak ?? '—', 'bad'],
-    ['2× fees still', pct(A.oos_double_fee_pct, 1), cls(A.oos_double_fee_pct)]
-  ].map(([k,v,c]) => `<div><span class="mut">${k}</span><b class="${c}">${v}</b></div>`).join('');
-  $('whyfail').innerHTML = (A.why_fail || []).map(x => `<li>${esc(x)}</li>`).join('');
-
+  const activeIds = new Set(['v2_donchian_1d', 'v2_turtle_4h_base', 'turtle_4h']);
   const rows = (ST.ranked && ST.ranked.rows) || [];
   $('ranksrc').textContent = (ST.ranked && ST.ranked.source) ? ('research/' + ST.ranked.source) : 'research/ranked.json';
   $('rankbody').innerHTML = rows.map((r, i) => {
     const raw = String(r.status || '');
     const killed = raw.toLowerCase() === 'killed' || ((r.kill_reasons || []).length && !raw.startsWith('survived'));
-    const pretty = ({
-      survived_beats_bh_raw: 'BEATS BH',
-      survived_beats_bh_risk_adjusted: 'BEATS BH · RISK',
-      survived_no_edge_vs_bh: 'NO EDGE VS BH'
-    })[raw] || (raw ? raw.replace(/_/g, ' ').toUpperCase() : '—');
-    const st = r.id === (A.id || 'turtle_4h') ? 'UNPROVEN' : (killed ? 'KILLED' : pretty);
-    const badge = st === 'UNPROVEN' ? 'warn' : st === 'KILLED' ? 'kill' : (String(st).includes('BEATS') ? 'live' : '');
-    return `<tr>
-      <td class="mut">${i+1}</td>
-      <td class="nm">${esc(r.id)}</td>
-      <td class="mut">${esc(r.family || '')}</td>
-      <td class="${cls(r.oos_return_pct)}">${pct(r.oos_return_pct, 1)}</td>
-      <td class="bad">${r.max_dd_pct == null ? '—' : r.max_dd_pct.toFixed(1) + '%'}</td>
-      <td>${r.win_rate_pct == null ? '—' : r.win_rate_pct.toFixed(1) + '%'}</td>
-      <td>${r.trades ?? '—'}</td>
-      <td>${r.profit_factor == null ? '—' : r.profit_factor.toFixed(2)}</td>
-      <td>${r.longest_losing_streak ?? '—'}</td>
-      <td><span class="badge ${badge}">${esc(st)}</span></td>
-    </tr>`;
-  }).join('') || '<tr><td colspan="10" class="mut">no ranked results yet</td></tr>';
-  const note = (ST.ranked && ST.ranked.note) || '';
-  const per = (ST.ranked && ST.ranked.oos_period) || '';
-  const bhN = ST.ranked && ST.ranked.buy_hold_oos_pct;
-  $('ranknote').textContent = [per && ('OOS ' + per), bhN != null && ('equal-weight buy&hold ' + pct(bhN, 1)), note].filter(Boolean).join(' · ');
+    let st = ({survived_beats_bh_raw: 'يتفوّق على الشراء والاحتفاظ', survived_beats_bh_risk_adjusted: 'يتفوّق بعد حساب المخاطرة', survived_no_edge_vs_bh: 'بدون أفضلية'})[raw] || (killed ? 'مستبعدة' : (raw || '—'));
+    let badge = killed ? 'kill' : raw.startsWith('survived_beats') ? 'live' : '';
+    if (activeIds.has(r.id)) { st = 'شغّالة تجريبي · ' + st; badge = 'warn'; }
+    return `<tr><td class="mut">${N(i+1)}</td><td class="nm">${esc(r.id)}</td><td class="mut">${esc(FAM_AR[r.family] || r.family || '')}</td>
+      <td class="${cls(r.oos_return_pct)}">${N(pct(r.oos_return_pct, 1))}</td><td class="bad">${N(r.max_dd_pct == null ? '—' : r.max_dd_pct.toFixed(1) + '%')}</td>
+      <td>${N(r.win_rate_pct == null ? '—' : r.win_rate_pct.toFixed(1) + '%')}</td><td>${N(r.trades ?? '—')}</td>
+      <td>${N(r.profit_factor == null ? '—' : r.profit_factor.toFixed(2))}</td><td>${N(r.longest_losing_streak ?? '—')}</td>
+      <td><span class="badge ${badge}">${esc(st)}</span></td></tr>`;
+  }).join('') || '<tr><td colspan="10" class="mut">ما فيه نتائج لين الحين</td></tr>';
+  const per = (ST.ranked && ST.ranked.oos_period) || '', bhN = ST.ranked && ST.ranked.buy_hold_oos_pct;
+  $('ranknote').innerHTML = [per && ('فترة الاختبار خارج العينة ' + N(esc(per))), bhN != null && ('الشراء والاحتفاظ بأوزان متساوية ' + N(pct(bhN, 1))),
+    'القائمة هي أكبر 20 عملة اليوم (انحياز النجاة)، وانختبرت نسخ كثيرة (انحياز الاختيار)، والاستراتيجيات تخاطر بـ1% لكل صفقة فقارن نسبة الربح للمخاطرة مو العائد الخام بس.'].filter(Boolean).join(' · ');
 
-  const pos = ST.positions || [];
-  $('posr').textContent = pos.length + ' open · max ' + (ST.max_open || 3);
-  $('poslist').innerHTML = pos.length ? pos.map(p => {
-    const m = posPnl(p);
-    const side = p.d === -1 ? 'SHORT' : 'LONG';
-    return `<div class="row"><div><b>${esc(p.symbol)}</b> <span class="mut">${esc(p.setup || '')} · ${side}</span></div>
-      <div class="mut">entry ${pxfmt(p.entry)} → ${pxfmt(m.px)}</div>
-      <div class="mut">stop ${pxfmt(p.stop)}</div>
-      <div class="${cls(m.usd)}">${sg(m.usd)}${usd(Math.abs(m.usd))} (${pct(m.pct, 2)})</div></div>`;
-  }).join('') : '<div class="empty">no open paper trades</div>';
-
-  const pending = ST.pending || [];
-  const closed = (ST.closed || []).slice().reverse().slice(0, 6);
-  $('recents').textContent = pending.length ? (pending.length + ' pending') : (closed.length ? (closed.length + ' recent closes') : 'none');
-  let rec = '';
-  for (const o of pending) {
-    rec += `<div class="row"><div><b>${esc(o.symbol)}</b> <span class="mut">PENDING ${esc(o.type || '')}</span></div>
-      <div class="mut">${esc(o.setup || '')}</div><div class="mut">stop ${pxfmt(o.stop)}</div><div class="mut">ref ${pxfmt(o.ref_price)}</div></div>`;
-  }
-  for (const p of closed) {
-    rec += `<div class="row"><div><b>${esc(p.symbol)}</b> <span class="mut">${esc(p.setup || '')} · closed</span></div>
-      <div class="mut">${pxfmt(p.entry)} → ${pxfmt(p.exit)}</div>
-      <div class="mut">${esc((p.exit_reason || '').slice(0, 42))}</div>
-      <div class="${cls(p.pnl_usd)}">${sg(p.pnl_usd||0)}${usd(Math.abs(p.pnl_usd||0))}</div></div>`;
-  }
-  $('recent').innerHTML = rec || '<div class="empty">no fills yet</div>';
-
-  const uni = ST.universe || [];
-  $('coins').innerHTML = uni.map(u => {
-    const px = priceOf(u.symbol);
-    const ch = liveChg[u.symbol];
+  $('coins').innerHTML = (ST.universe || []).map(u => {
+    const px = priceOf(u.symbol), ch = liveChg[u.symbol];
     return `<div class="coin"><b>${esc(u.symbol.replace(/USDT$/, ''))}</b><span class="nm">${esc(u.name || u.symbol)}</span>
-      <div class="px">${pxfmt(px)}</div>
-      <div class="ch ${ch == null ? 'mut' : cls(ch)}">${ch == null ? '—' : pct(ch, 2)}</div></div>`;
-  }).join('') || '<div class="mut">no universe</div>';
+      <div class="px">${pxfmt(px)}</div><div class="ch ${ch == null ? 'mut' : cls(ch)}">${ch == null ? '—' : pct(ch, 2)}</div></div>`;
+  }).join('') || '<div class="mut">ما فيه عملات</div>';
 
-  $('tailline').textContent = ((ST.decisions || []).length) + ' lines';
+  $('tailline').innerHTML = N((ST.decisions || []).length) + ' سطر';
   if (!opts || !opts.skipTail) syncTail();
   renderStatus();
 }
@@ -452,10 +382,8 @@ async function refreshPrices() {
   try {
     const r = await fetch(TICKER + '?symbols=' + q, { cache: 'no-store' });
     if (r.ok) {
-      apply24(await r.json());
-      lastLiveAt = Date.now();
-      lastPxErr = 0;
-      $('pxsrc').textContent = 'data-api.binance.vision · 24h ticker · live in this browser';
+      apply24(await r.json()); lastLiveAt = Date.now(); lastPxErr = 0;
+      $('pxsrc').innerHTML = N('data-api.binance.vision') + ' · مؤشر 24 ساعة · مباشر في متصفحك';
       if (ST) render({ skipTail: true });
       return;
     }
@@ -463,15 +391,12 @@ async function refreshPrices() {
   try {
     const r = await fetch(TICKER_FB + '?symbols=' + q, { cache: 'no-store' });
     if (!r.ok) throw new Error('ticker ' + r.status);
-    const rows = await r.json();
-    apply24(Array.isArray(rows) ? rows : [rows]);
-    lastLiveAt = Date.now();
-    lastPxErr = 0;
-    $('pxsrc').textContent = 'data-api.binance.vision · last price · live in this browser';
+    apply24(await r.json()); lastLiveAt = Date.now(); lastPxErr = 0;
+    $('pxsrc').innerHTML = N('data-api.binance.vision') + ' · آخر سعر · مباشر في متصفحك';
     if (ST) render({ skipTail: true });
   } catch (e) {
     lastPxErr = Date.now();
-    $('pxsrc').textContent = 'ticker unavailable · showing last forge prices';
+    $('pxsrc').textContent = 'الأسعار المباشرة ما توفرت · نعرض آخر أسعار البوت';
   }
 }
 
@@ -479,15 +404,10 @@ async function poll() {
   try {
     const r = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' });
     if (!r.ok) throw new Error('data.json ' + r.status);
-    ST = await r.json();
-    lastOk = Date.now();
-    render({ skipTail: false });
-    refreshPrices();
-  } catch (e) {
-    if (ST) renderStatus();
-  }
+    ST = await r.json(); lastOk = Date.now();
+    render({ skipTail: false }); refreshPrices();
+  } catch (e) { if (ST) renderStatus(); }
 }
-
 setInterval(renderStatus, 1000);
 poll();
 setInterval(poll, 10000);
